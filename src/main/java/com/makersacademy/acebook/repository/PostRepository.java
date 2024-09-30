@@ -7,3 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface PostRepository extends CrudRepository<Post, Long> {
 
 }
+
+
+//SELECT * FROM posts ORDER BY created_at DESC;
