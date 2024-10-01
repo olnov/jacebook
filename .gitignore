@@ -9,7 +9,4 @@ dependency-reduced-pom.xml
 .factorypath
 .project
 .settings/
-
-
-/application.yml
 /src/main/resources/application.yml
