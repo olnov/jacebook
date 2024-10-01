@@ -12,6 +12,7 @@ public class UsersController {
 
     @PostMapping("/users")
     public User afterRegistration(@RequestBody User user) {
+        System.out.println(user);
         userRepository.save(user);
         return user;
     }

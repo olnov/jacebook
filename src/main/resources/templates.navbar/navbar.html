@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>navbar</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/}">Feed</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a class="nav-link" th:href="@{/friends}">Friends</a></li>
+
+            <li><a class="nav-link" th:href="@{/my-posts}">My Posts</a></li>
+
+            <li><a class="nav-link" th:href="@{/profile}">Profile</a></li>
+        </ul>
+    </div>
+</nav>
+
+</body>
+</html>
