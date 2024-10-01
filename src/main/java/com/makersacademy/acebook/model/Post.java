@@ -17,6 +17,10 @@ public class Post {
     private Long id;
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -30,9 +34,5 @@ public class Post {
     }
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }
-
-
-
-
 
 }
