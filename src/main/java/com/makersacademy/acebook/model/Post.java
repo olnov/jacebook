@@ -26,6 +26,7 @@ public class Post {
 
     public Post(String content) {
         this.content = content;
+        this.createdAt = LocalDateTime.now();
     }
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }

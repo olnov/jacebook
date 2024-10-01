@@ -21,6 +21,9 @@
 
     <ul th:each="post: ${posts}">
         <li th:text="${post.content}" />
+<!--        <li th:text="${post.createdAt}" />-->
+        <span th:text="${#dates.format('2024-09-30T18:06:12', 'dd MMM yyyy HH:mm:ss')}"></span>
+
     </ul>
 
     </body>
