@@ -20,7 +20,20 @@
     </form>
 
     <ul th:each="post: ${posts}">
-        <li th:text="${post.content}" />
+        <li>
+        <p th:text="${post.content}" /></p>
+
+        <ul th:each="existing_comment: ${post.comments}" th:text="${existing_comment.content}">
+        </ul>
+        <form action="#" th:action="@{/comments}" th:object="${comment}" method="post">
+<!--            <input type="hidden" th:field="*{post_id}" />-->
+<!--            <p th:text="${post.id}" th:field="*{post_id}"></p>-->
+            <p>Content: <input type="text" th:field="*{content}" /></p>
+<!--           <input type="hidden" th:field="*{post_id}" th:value="${post.id}">-->
+<!--            <input type="hidden" th:field="*{user_id}" th:text="1">-->
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+        </li>
     </ul>
 
     </body>
