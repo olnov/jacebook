@@ -2,6 +2,7 @@
 
 import com.makersacademy.acebook.Application;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,14 +32,23 @@ public class NavBarTest {
         // Signup, login, then loads the homepage, then assert
         // Navigate to your web application
         driver.get("http://localhost:8080/");
-        // Find and check if the "Home" link exists
-        WebElement homeLink = driver.findElement(By.linkText("Home"));
-        assertNotNull("Home link should exist on the page", homeLink);
-        // Find and check if the "About" link exists
-        WebElement aboutLink = driver.findElement(By.linkText("About"));
-        assertNotNull("About link should exist on the page", aboutLink);
-        // Find and check if the "Contact" link exists
-        WebElement contactLink = driver.findElement(By.linkText("Contact"));
-        assertNotNull("Contact link should exist on the page", contactLink);
+//        driver.findElement(By.linkText("Sign up")).click();
+        driver.findElement(By.name("username")).sendKeys("test@mail.com");
+        driver.findElement(By.name("password")).sendKeys("Test123!");
+        driver.findElement(By.name("action")).click();
+        // Find and check if the "Feed" link exists
+        WebElement feedLink = driver.findElement(By.linkText("Feed"));
+        Assert.assertEquals("Feed", feedLink.getText());
+        // Find and check if the "Feed" link exists
+        WebElement friendsLink = driver.findElement(By.linkText("Friends"));
+        Assert.assertEquals("Friends", friendsLink.getText());
+        // Find and check if the "Feed" link exists
+        WebElement myPostsLink = driver.findElement(By.linkText("My Posts"));
+        Assert.assertEquals("My Posts", myPostsLink.getText());
+        // Find and check if the "Feed" link exists
+        WebElement profileLink = driver.findElement(By.linkText("Profile"));
+        Assert.assertEquals("Profile", profileLink.getText());
+
+
     }
 }
