@@ -15,7 +15,7 @@ import java.util.List;
 public class PostTest {
 
 	// Initialising post objects with different content
-	private User testUser = new User("Test User");
+	private User testUser = new User("test@gmail.com");
 	private Post post1 = new Post("First post", testUser);
 	private Post post2 = new Post("Second post", testUser);
 	private Post post = new Post("hello", testUser);

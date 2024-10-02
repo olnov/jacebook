@@ -19,11 +19,12 @@ public class PostLoginController {
 
     @GetMapping("/post-login")
     public String handlePostLogin(Authentication authentication, HttpSession session) {
+        System.out.println("Here!!!");
         // Get email from Auth0 (principal's attributes)
         OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
         String email = oidcUser.getAttribute("email");
 
-        // Simulate fetching user from the database (assuming email is stored in username column)
+        // Getting user from the DB by email
         Optional<User> userOptional = userRepository.findByUsername(email);
         if (userOptional.isPresent()) {
             Long userId = userOptional.get().getId();
