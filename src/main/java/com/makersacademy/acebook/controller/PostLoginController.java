@@ -19,15 +19,14 @@ public class PostLoginController {
 
     @GetMapping("/post-login")
     public String handlePostLogin(Authentication authentication, HttpSession session) {
-        System.out.println("Here!!!");
         // Get email from Auth0 (principal's attributes)
         OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
         String email = oidcUser.getAttribute("email");
 
         // Getting user from the DB by email
-        Optional<User> userOptional = userRepository.findByUsername(email);
-        if (userOptional.isPresent()) {
-            Long userId = userOptional.get().getId();
+        Optional<User> existingUser = userRepository.findByUsername(email);
+        if (existingUser.isPresent()) {
+            Long userId = existingUser.get().getId();
 
             // Store the user_id in HttpSession
             session.setAttribute("user_id", userId);
@@ -35,7 +34,15 @@ public class PostLoginController {
             // Optionally redirect to another page after login
             return "redirect:/posts";
         } else {
-            throw new RuntimeException("User not found in the local database.");
+            userRepository.save(new User(email));
+            Optional<User> newUser = userRepository.findByUsername(email);
+            if (newUser.isPresent()) {
+                Long userId = newUser.get().getId();
+                session.setAttribute("user_id", userId);
+                return "redirect:/posts";
+            } else {
+                throw new RuntimeException("Can't create a local user.");
+            }
         }
     }
 }
