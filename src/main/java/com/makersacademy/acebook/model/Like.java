@@ -4,37 +4,35 @@ import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Getter
-@Table(name = "POSTS")
-public class Post {
+@Setter
+@Table(name = "LIKES")
 
+public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
+    private Long user_id;
+    private Long post_id;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Post() {
+    public Like() {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Post(String content) {
-        this.content = content;
+    public Like(Long user_id, Long post_id) {
+        this.user_id = user_id;
+        this.post_id = post_id;
         this.createdAt = LocalDateTime.now();
     }
-    public String getContent() { return this.content; }
-    public void setContent(String content) { this.content = content; }
-
-
-
-
 
 }
