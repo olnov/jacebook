@@ -21,7 +21,8 @@ public class PostsController {
 
     @GetMapping("/posts")
     public String index(Model model) {
-        Iterable<Post> posts = postRepository.findAll();
+//        Iterable<Post> posts = repository.findAll();
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         model.addAttribute("posts", posts);
         model.addAttribute("post", new Post());
 //        Iterable<Comment> comments = commentRepository.findAll();
@@ -29,7 +30,7 @@ public class PostsController {
         model.addAttribute("comment", new Comment());
         return "posts/index";
     }
-
+// push
     @PostMapping("/posts")
     public RedirectView create(@ModelAttribute Post post) {
         postRepository.save(post);
