@@ -21,17 +21,36 @@
 
     <ul th:each="post: ${posts}">
         <li>
-        <p th:text="${post.content}" /></p>
+        <p th:text="${post.content}" />
+        <li th:each="existing_comment: ${post.comments}">
+        <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}" ></ul>
+        <form action="#" th:action="@{/comments/update}" method="post">
+        <input name="content" th:id="'edit_comment_' + ${existing_comment.id}" th:value="${existing_comment.content}" style="display: none">
+        <input name="comment_id" type="hidden" th:value="${existing_comment.id}">
+        <input type="submit" th:id="'submit_comment_' + ${existing_comment.id}" value="Submit" style="display: none">
+        </form>
+<!--        replace the 1 with the logged in user's id-->
+<!--        <div th:if="${existing_comment.user_id == '1'}">-->
+        <input type="button"  th:data-comment="'comment_' + ${existing_comment.id}"
+               th:data-edit-comment="'edit_comment_' + ${existing_comment.id}" value="Edit"
+               th:data-submit-comment="'submit_comment_' + ${existing_comment.id}"
+               th:onclick="document.getElementById(this.getAttribute('data-comment')).style='display: none';
+               document.getElementById(this.getAttribute('data-edit-comment')).style='display: inline';
+               document.getElementById(this.getAttribute('data-submit-comment')).style='display: inline'">
+        <form action="#" th:action="@{/comments/delete}" method="get">
+            <input name="comment_id" type="hidden" th:value="${existing_comment.id}">
+            <input type="submit" value="Delete">
+        </form>
 
-        <ul th:each="existing_comment: ${post.comments}" th:text="${existing_comment.content}">
-        </ul>
+<!--        </div>-->
+        </li>
         <form action="#" th:action="@{/comments}" th:object="${comment}" method="post">
 <!--            <input type="hidden" th:field="*{post_id}" />-->
 <!--            <p th:text="${post.id}" th:field="*{post_id}"></p>-->
             <p>Content: <input type="text" th:field="*{content}" /></p>
-            <input name="post_id" type="hidden"  th:value="${post.id}">
+            <input name="post_id" type="hidden" th:value="${post.id}">
             <!-- remember to get user_id and pass it through as parameter-->
-<!--            <input type="hidden" th:field="*{user_id}" th:text="1">-->
+            <input name="user_id" type="hidden" th:value="1">
             <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
         </form>
         </li>

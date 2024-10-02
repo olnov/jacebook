@@ -17,24 +17,39 @@ import org.springframework.web.servlet.view.RedirectView;
 public class CommentController {
 
     @Autowired
-    CommentRepository repository;
+    CommentRepository commentRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
     PostRepository postRepository;
 
     @PostMapping("/comments")
-    public RedirectView create(@ModelAttribute Comment comment, @RequestParam(name = "post_id") Long post_id) {
+    public RedirectView create(@ModelAttribute Comment comment, @RequestParam(name = "post_id") Long post_id, @RequestParam(name = "user_id") Long user_id) {
         System.out.println(comment);
-        Long user_id = 1L;
+        //Long user_id = 1L;
         User user = userRepository.findById(user_id).get();
         comment.setUser(user);
         //Long post_id = 1L;
         Post post = postRepository.findById(post_id).get();
         comment.setPost(post);
 
-        repository.save(comment);
+        commentRepository.save(comment);
         return new RedirectView("/posts");
     }
 
+    @GetMapping("/comments/delete")
+    public RedirectView deleteComment(@RequestParam(name="comment_id") Long comment_id){
+        Comment comment = commentRepository.findById(comment_id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid comment id:" + comment_id));
+        commentRepository.delete(comment);
+        return new RedirectView("/posts");
+    }
+
+    @PostMapping("/comments/update")
+    public RedirectView updateComment(@RequestParam(name="comment_id") Long comment_id, @RequestParam(name="content") String content){
+        Comment comment = commentRepository.findById(comment_id).get();
+        comment.setContent(content);
+        commentRepository.save(comment);
+        return new RedirectView("/posts");
+    }
 }
