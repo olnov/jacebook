@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,12 +21,13 @@ public class NavBarTest {
     WebDriver driver;
     @Before
     public void setup() {
+        System.out.println("TESTTTTTTING THE BEFORE EACH");
         System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
         driver = new ChromeDriver();
     }
     @After
     public void tearDown() {
-//        driver.close();
+        driver.close();
     }
     @Test
     public void confirmNavBarLinksExist() {
@@ -48,7 +50,21 @@ public class NavBarTest {
         // Find and check if the "Feed" link exists
         WebElement profileLink = driver.findElement(By.linkText("Profile"));
         Assert.assertEquals("Profile", profileLink.getText());
+    }
 
+    @Test
+    public void confirmNavBarLinksRedirectCorrectly() {
+
+        driver.get("http://localhost:8080/");
+
+
+        driver.findElement(By.name("username")).sendKeys("test@mail.com");
+        driver.findElement(By.name("password")).sendKeys("Test123!");
+        driver.findElement(By.name("action")).click();
+        driver.findElement(By.id("friends")).click();
+
+        WebElement h1 = driver.findElement(By.linkText("Friends"));
+        Assert.assertEquals("Friends", h1.getText());
 
     }
 }

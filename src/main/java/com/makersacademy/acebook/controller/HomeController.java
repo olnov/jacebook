@@ -10,10 +10,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class HomeController {
-	@RequestMapping(value = "/")
-	public RedirectView index() {
-		return new RedirectView("/posts");
-	}
+//	@RequestMapping(value = "/")
+//	public RedirectView index() {
+//		return new RedirectView("/posts");
+//	}
 
 //	@GetMapping("/templates.profile")
 //	public String profile(Model model, @AuthenticationPrincipal OidcUser principal) {

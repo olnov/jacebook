@@ -16,12 +16,12 @@ public class PostsController {
     @Autowired
     PostRepository repository;
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public String index(Model model) {
         Iterable<Post> posts = repository.findAll();
         model.addAttribute("posts", posts);
         model.addAttribute("post", new Post());
-        return "posts/index";
+        return "feed";
     }
 
     @PostMapping("/posts")

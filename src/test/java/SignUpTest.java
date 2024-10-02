@@ -26,7 +26,7 @@ public class SignUpTest {
         faker = new Faker();
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         driver.close();
     }
