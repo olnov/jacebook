@@ -22,8 +22,12 @@
     <ul th:each="post: ${posts}">
         <li>
         <p th:text="${post.content}" />
+<!--        this iterates through each comment on the post and displays it-->
         <li th:each="existing_comment: ${post.comments}">
         <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}" ></ul>
+
+<!--        this form has inputs for editing the existing comment, assigning the comment_id as a parameter, and a submit button
+            to send the program to the CommentController path-->
         <form action="#" th:action="@{/comments/update}" method="post">
         <input name="content" th:id="'edit_comment_' + ${existing_comment.id}" th:value="${existing_comment.content}" style="display: none">
         <input name="comment_id" type="hidden" th:value="${existing_comment.id}">
@@ -31,12 +35,19 @@
         </form>
 <!--        replace the 1 with the logged in user's id-->
 <!--        <div th:if="${existing_comment.user_id == '1'}">-->
-        <input type="button"  th:data-comment="'comment_' + ${existing_comment.id}"
-               th:data-edit-comment="'edit_comment_' + ${existing_comment.id}" value="Edit"
+
+<!--        button that hides the existing comments and shows an editable text box of the comment, and the submit button-->
+        <input type="button"  value="Edit"
+               th:data-comment="'comment_' + ${existing_comment.id}"
+               th:data-edit-comment="'edit_comment_' + ${existing_comment.id}"
                th:data-submit-comment="'submit_comment_' + ${existing_comment.id}"
-               th:onclick="document.getElementById(this.getAttribute('data-comment')).style='display: none';
-               document.getElementById(this.getAttribute('data-edit-comment')).style='display: inline';
-               document.getElementById(this.getAttribute('data-submit-comment')).style='display: inline'">
+               th:onclick="
+                    document.getElementById(this.getAttribute('data-comment')).style='display: none';
+                    document.getElementById(this.getAttribute('data-edit-comment')).style='display: inline';
+                    document.getElementById(this.getAttribute('data-submit-comment')).style='display: inline'
+               ">
+
+<!--        the form sets the comment_id and directs the program to /comments/delete in the CommentController-->
         <form action="#" th:action="@{/comments/delete}" method="get">
             <input name="comment_id" type="hidden" th:value="${existing_comment.id}">
             <input type="submit" value="Delete">
@@ -44,6 +55,7 @@
 
 <!--        </div>-->
         </li>
+<!--        the form sets the post_id and user_id, and allows the user to input the contents of the new comment.-->
         <form action="#" th:action="@{/comments}" th:object="${comment}" method="post">
 <!--            <input type="hidden" th:field="*{post_id}" />-->
 <!--            <p th:text="${post.id}" th:field="*{post_id}"></p>-->
