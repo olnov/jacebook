@@ -29,7 +29,8 @@
 <!--            <input type="hidden" th:field="*{post_id}" />-->
 <!--            <p th:text="${post.id}" th:field="*{post_id}"></p>-->
             <p>Content: <input type="text" th:field="*{content}" /></p>
-<!--           <input type="hidden" th:field="*{post_id}" th:value="${post.id}">-->
+            <input name="post_id" type="hidden"  th:value="${post.id}">
+            <!-- remember to get user_id and pass it through as parameter-->
 <!--            <input type="hidden" th:field="*{user_id}" th:text="1">-->
             <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
         </form>

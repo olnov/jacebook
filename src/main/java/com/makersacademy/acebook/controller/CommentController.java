@@ -24,12 +24,12 @@ public class CommentController {
     PostRepository postRepository;
 
     @PostMapping("/comments")
-    public RedirectView create(@ModelAttribute Comment comment) {
+    public RedirectView create(@ModelAttribute Comment comment, @RequestParam(name = "post_id") Long post_id) {
         System.out.println(comment);
         Long user_id = 1L;
         User user = userRepository.findById(user_id).get();
         comment.setUser(user);
-        Long post_id = 1L;
+        //Long post_id = 1L;
         Post post = postRepository.findById(post_id).get();
         comment.setPost(post);
 
