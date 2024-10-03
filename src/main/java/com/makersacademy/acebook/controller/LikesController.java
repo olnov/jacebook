@@ -5,7 +5,7 @@ import com.makersacademy.acebook.repository.LikeRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-public class LikeController {
+public class LikesController {
 
     @Autowired
     LikeRepository likeRepository;
