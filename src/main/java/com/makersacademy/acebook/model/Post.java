@@ -6,7 +6,9 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 import java.util.Optional;
+
 
 @Data
 @Entity
@@ -17,6 +19,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
@@ -31,10 +34,13 @@ public class Post {
 
     public Post() {}
 
+
     public Post(String content, User user) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
+
         this.user = user;
+
     }
 
 
@@ -42,4 +48,5 @@ public class Post {
     public void setContent(String content) { this.content = content; }
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
+
 }
