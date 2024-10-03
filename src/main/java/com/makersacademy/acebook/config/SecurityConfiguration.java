@@ -1,17 +1,12 @@
 package com.makersacademy.acebook.config;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,17 +29,13 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers("/", "/images/**").permitAll()
+                        .requestMatchers( "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
+//                .oauth2Login(withDefaults())
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new AuthenticationSuccessHandler() {
-                            @Override
-                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                                // Custom logic after successful login
-                                response.sendRedirect("/users/loggedin"); // or your custom behavior
-                            }
-                        }))
+                        .defaultSuccessUrl("/post-login", true)  // Redirect to post-login after successful login
+                )
                 .logout(logout -> logout
                         .addLogoutHandler(logoutHandler()));
         return http.build();
