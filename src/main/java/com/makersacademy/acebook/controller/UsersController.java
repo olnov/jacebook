@@ -20,17 +20,17 @@ public class UsersController {
         return user;
     }
 
-    @GetMapping("/users/loggedin")
-    public RedirectView afterLogin(){
-        DefaultOidcUser principal = (DefaultOidcUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        String username = (String) principal.getAttributes().get("email");
-        User currentUser = userRepository
-                .findUserByUsername(username)
-                .orElseGet(() -> userRepository.save(new User(username)));
-        return new RedirectView("/posts");
-    }
+//    @GetMapping("/users/loggedin")
+//    public RedirectView afterLogin(){
+//        DefaultOidcUser principal = (DefaultOidcUser) SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getPrincipal();
+//
+//        String username = (String) principal.getAttributes().get("email");
+//        User currentUser = userRepository
+//                .findByUsername(username)
+//                .orElseGet(() -> userRepository.save(new User(username)));
+//        return new RedirectView("/posts");
+//    }
 }
