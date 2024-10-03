@@ -27,6 +27,6 @@ public class PostsController {
     @PostMapping("/posts")
     public RedirectView create(@ModelAttribute Post post) {
         repository.save(post);
-        return new RedirectView("/posts");
+        return new RedirectView("/");
     }
 }
