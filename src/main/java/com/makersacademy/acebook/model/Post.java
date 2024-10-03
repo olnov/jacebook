@@ -3,12 +3,10 @@ package com.makersacademy.acebook.model;
 import jakarta.persistence.*;
 
 import lombok.Data;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import java.util.Optional;
-
 
 @Data
 @Entity
@@ -48,5 +46,16 @@ public class Post {
     public void setContent(String content) { this.content = content; }
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
+
+
+// ======= Explicit setter and getter ======== //
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
 
 }
