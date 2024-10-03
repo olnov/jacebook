@@ -9,30 +9,59 @@
 </head>
 
 
-<body class="p-3 mb-2 bg-light text-dark">
+<body class="bg-light text-dark">
 
 <div th:insert="../templates/navbar.html :: navbar">  </div>
 
-<h1>
-    <div style="text-align: center;">Posts</div>
-</h1>
-<p>Your user ID is: <span th:text="${userId}"></span></p>
+<!--<h1>-->
+<!--    <div style="text-align: center;">Posts</div>-->
+<!--</h1>-->
+<!--<p>Your user ID is: <span th:text="${userId}"></span></p>-->
+
 <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
-    <div class="card mb-3 text-center" style="width: 35%; margin: auto; justify-content: center;">
-        <div class="row g-0">
-            <div class="card-body">
-                <div sec:authorize="isAuthenticated()" id="greeting">
-                    <span sec:authentication="principal.attributes['email']">
-                    </span>
+    <div class="card mb-3" style="width: 40%; margin: auto; margin-top: 10px;">
+        <div class="card-body">
+            <div class="d-flex mb-3">
+                <img src="/images/user.png" class="rounded-circle me-3" alt="User Profile" style="width: 50px; height: 50px;">
+                <div class="w-100">
+                    <div sec:authorize="isAuthenticated()" id="greeting">
+                        <span sec:authentication="principal.attributes['email']" class="fw-bold">
+                        </span>
+                    </div>
+                    <textarea class="form-control" rows="3" placeholder="Share your thoughts..." th:field="*{content}"></textarea>
                 </div>
-                <p class="card-text"><input type="text" placeholder="Share your thoughts..." th:field="*{content}"/></p>
-                <p class="card-text"><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Post</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
             </div>
         </div>
     </div>
 </form>
 
-<div th:replace="fragments/postcards :: postcards"></div>
+
+<div th:insert="fragments/postcards :: postcards"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+        const setLike = (postId) => {
+            console.log("Post id:",postId);
+            var image = document.getElementById(postId);
+            if (image.src.includes('hand-thumbs-up.svg')) {
+                image.src = '/images/hand-thumbs-up-fill.svg';
+            } else {
+                image.src = '/images/hand-thumbs-up.svg';
+            }
+            var myUserId = /*[[${userId}]]*/ 'default';
+            console.log("User id:",myUserId);
+        };
+
+        const editPost = (postId) => {
+            console.log(postId);
+        };
+    /*]]>*/
+</script>
 
 </body>
 </html>

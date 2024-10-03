@@ -33,6 +33,15 @@ public class PostsController {
         return "feed";
     }
 
+    @GetMapping("/my-posts")
+    public String myPosts(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("user_id");
+        List<Post> myPostList = postRepository.findAllByUserId(userId);
+        model.addAttribute("userId", userId);
+        model.addAttribute("posts", myPostList);
+        model.addAttribute("post", new Post());
+        return "feed";
+    }
 //    @PostMapping("/posts")
 //    public RedirectView create(@ModelAttribute Post post) {
 //        postRepository.save(post);
