@@ -61,10 +61,17 @@ public class NavBarTest {
         driver.findElement(By.name("username")).sendKeys("test@mail.com");
         driver.findElement(By.name("password")).sendKeys("Test123!");
         driver.findElement(By.name("action")).click();
+
         driver.findElement(By.id("friends")).click();
+        WebElement friendsH1 = driver.findElement(By.linkText("Friends"));
+        Assert.assertEquals("Friends", friendsH1.getText());
 
-        WebElement h1 = driver.findElement(By.linkText("Friends"));
-        Assert.assertEquals("Friends", h1.getText());
+        driver.findElement(By.id("my-posts")).click();
+        WebElement myPostsH1 = driver.findElement(By.linkText("My Posts"));
+        Assert.assertEquals("My Posts", myPostsH1.getText());
 
+        driver.findElement(By.id("profile")).click();
+        WebElement profileH1 = driver.findElement(By.linkText("Profile"));
+        Assert.assertEquals("Profile", profileH1.getText());
     }
 }
