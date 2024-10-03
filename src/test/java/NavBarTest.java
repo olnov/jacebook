@@ -21,7 +21,6 @@ public class NavBarTest {
     WebDriver driver;
     @Before
     public void setup() {
-        System.out.println("TESTTTTTTING THE BEFORE EACH");
         System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
         driver = new ChromeDriver();
     }
