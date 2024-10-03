@@ -22,7 +22,7 @@ public class PostsController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/posts")
+    @GetMapping("/")
     public String index(HttpSession session, Model model) {
 //        Iterable<Post> posts = repository.findAll();
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -30,7 +30,7 @@ public class PostsController {
         model.addAttribute("userId", userId);
         model.addAttribute("posts", posts);
         model.addAttribute("post", new Post());
-        return "posts/index";
+        return "feed";
     }
 
 //    @PostMapping("/posts")
@@ -46,6 +46,7 @@ public class PostsController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Post post = new Post(content,user);
         postRepository.save(post);
-        return  new RedirectView("/posts");
+//        return  new RedirectView("/posts");
+        return new RedirectView("/");
     }
 }

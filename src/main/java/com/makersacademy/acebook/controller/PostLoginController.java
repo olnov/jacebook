@@ -32,14 +32,14 @@ public class PostLoginController {
             session.setAttribute("user_id", userId);
 
             // Optionally redirect to another page after login
-            return "redirect:/posts";
+            return "redirect:/";
         } else {
             userRepository.save(new User(email));
             Optional<User> newUser = userRepository.findByUsername(email);
             if (newUser.isPresent()) {
                 Long userId = newUser.get().getId();
                 session.setAttribute("user_id", userId);
-                return "redirect:/posts";
+                return "redirect:/";
             } else {
                 throw new RuntimeException("Can't create a local user.");
             }
