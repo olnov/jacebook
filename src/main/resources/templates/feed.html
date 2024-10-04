@@ -42,6 +42,8 @@
 
 
 <div th:insert="fragments/postcards :: postcards"></div>
+<div th:insert="fragments/confirmation :: confirmation"></div>
+<div th:insert="fragments/footer :: footer"></div>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -59,9 +61,30 @@
             console.log("User id:",myUserId);
         };
 
+        const setPostId = (postId)=> {
+            actionPostId = postId;
+        };
+
         const editPost = (postId) => {
             console.log(postId);
         };
+
+        const deletePost = async () => {
+            console.log(actionPostId);
+            if (!actionPostId) {
+                return "Post id is not set";
+            }
+            try {
+                await fetch(`/posts/${actionPostId}`, {
+                    method: 'DELETE',
+                    headers:
+                        { 'Content-type':'application/json' }
+                });
+                window.location.href = '/';
+            }catch(error){
+                console.log("Error: ",error);
+            }
+        }
     /*]]>*/
 </script>
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class PostsController {
@@ -57,5 +58,21 @@ public class PostsController {
         postRepository.save(post);
 //        return  new RedirectView("/posts");
         return new RedirectView("/");
+    }
+
+    @DeleteMapping("/posts/{post_id}")
+    public String deletePost(@PathVariable("post_id") Long post_id, HttpSession session) {
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            throw new RuntimeException("Not authorized");
+        }
+        Post post = postRepository.findById(post_id)
+                .orElseThrow(()-> new RuntimeException("Post not found"));
+        if (Objects.equals(post.getUser().getId(), userId)) {
+            postRepository.deleteById(post_id);
+        } else {
+            throw new RuntimeException("You are not allowed to delete this post");
+        }
+        return "Deleted successfully";
     }
 }
