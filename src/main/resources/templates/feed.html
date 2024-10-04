@@ -50,8 +50,10 @@
             var image = document.getElementById(postId);
             if (image.src.includes('hand-thumbs-up.svg')) {
                 image.src = '/images/hand-thumbs-up-fill.svg';
+                // Add a record to the likes table
             } else {
                 image.src = '/images/hand-thumbs-up.svg';
+                // Delete record from the likes table
             }
             var myUserId = /*[[${userId}]]*/ 'default';
             console.log("User id:",myUserId);
