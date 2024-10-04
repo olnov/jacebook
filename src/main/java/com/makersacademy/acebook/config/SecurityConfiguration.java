@@ -29,10 +29,13 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers("/", "/images/**").permitAll()
+                        .requestMatchers( "/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(withDefaults())
+//                .oauth2Login(withDefaults())
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/post-login", true)  // Redirect to post-login after successful login
+                )
                 .logout(logout -> logout
                         .addLogoutHandler(logoutHandler()));
         return http.build();
