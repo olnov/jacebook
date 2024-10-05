@@ -43,6 +43,7 @@
 
 <div th:insert="fragments/postcards :: postcards"></div>
 <div th:insert="fragments/confirmation :: confirmation"></div>
+<div th:insert="fragments/edit :: edit"></div>
 <div th:insert="fragments/footer :: footer"></div>
 
 <script th:inline="javascript">
@@ -62,20 +63,42 @@
         };
 
         const setPostId = (postId)=> {
-            actionPostId = postId;
+            postDeleteId = postId;
         };
 
-        const editPost = (postId) => {
-            console.log(postId);
+        const setPostEdit = (postId, postContent)=> {
+            postEditId = postId;
+            document.getElementById("postContentEdit").value = postContent;
+        }
+
+        const editPost = async() => {
+            console.log(postEditId);
+            updatedPostContent = document.getElementById("postContentEdit").value;
+            console.log(updatedPostContent);
+            if (!postEditId || !updatedPostContent) {
+                return "Post id or content is not set";
+            }
+            try {
+                const formData = new FormData();
+                formData.append("content", updatedPostContent);
+                const requestOptions = {
+                    method: 'PUT',
+                    body: formData
+                };
+                await fetch(`/posts/${postEditId}`, requestOptions);
+                window.location.href = "/";
+            }catch(error){
+                console.log("Error:",error);
+            }
         };
 
         const deletePost = async () => {
-            console.log(actionPostId);
-            if (!actionPostId) {
+            console.log(postDeleteId);
+            if (!postDeleteId) {
                 return "Post id is not set";
             }
             try {
-                await fetch(`/posts/${actionPostId}`, {
+                await fetch(`/posts/${postDeleteId}`, {
                     method: 'DELETE',
                     headers:
                         { 'Content-type':'application/json' }
