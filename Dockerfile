@@ -1,6 +1,6 @@
 FROM openjdk:21-jdk-slim
 WORKDIR /app
-COPY target/acebook-template-1.0-SNAPSHOT.jar /app/acebook.jar
+COPY target/acebook-template-1.0-SNAPSHOT.jar /app/jacebook.jar
 EXPOSE 8080
 
 ENV JDBC_CONNECTION=$JDBC_CONNECTION
