@@ -56,4 +56,8 @@ public class Post {
         return this.createdAt;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
 }

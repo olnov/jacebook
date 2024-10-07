@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -30,12 +31,7 @@ public class LikesController {
 
     @PostMapping("/posts/{post_id}/like")
     public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
-
         Long userId = (Long) session.getAttribute("user_id");
-
-//        System.out.println(userId);
-//        System.out.println(post_id);
-
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         postRepository.findById(post_id)
@@ -47,15 +43,14 @@ public class LikesController {
     }
 
     @DeleteMapping("/posts/{post_id}/like")
-    public RedirectView deleteLike(@PathVariable("post_id") Long post_id, HttpSession session) {
-        System.out.println("THE FRONT END HAS MADE THE REQUEST");
-
+    public ResponseEntity deleteLike(@PathVariable("post_id") Long post_id, HttpSession session) {
+//        System.out.println("THE FRONT END HAS MADE THE REQUEST");
         Long userId = (Long) session.getAttribute("user_id");
-
-        Like like = likeRepository.findByUser_idAndPost_id(userId, post_id)
+        Like like = likeRepository.findByUserIdAndPostId(userId, post_id)
                 .orElseThrow(() -> new RuntimeException("like not found"));
-        System.out.println(like);
         likeRepository.delete(like);
-        return new RedirectView("/");
+        return ResponseEntity.ok("Deleted like");
     }
+
+
 }

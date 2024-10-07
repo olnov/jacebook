@@ -19,8 +19,8 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long user_id;
-    private Long post_id;
+    private Long userId;
+    private Long postId;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -30,8 +30,8 @@ public class Like {
     }
 
     public Like(Long user_id, Long post_id) {
-        this.user_id = user_id;
-        this.post_id = post_id;
+        this.userId = user_id;
+        this.postId = post_id;
         this.createdAt = LocalDateTime.now();
     }
 
