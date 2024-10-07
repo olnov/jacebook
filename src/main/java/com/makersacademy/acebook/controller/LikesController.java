@@ -28,7 +28,7 @@ public class LikesController {
     @Autowired
     PostRepository postRepository;
 
-    @PostMapping("/likes")
+    @PostMapping("/like")
     public RedirectView createLike(@RequestParam("post_id") Long post_id, HttpSession session) {
         System.out.println("THE FRONT END HAS MADE THE REQUEST");
         Long userId = (Long) session.getAttribute("user_id");
@@ -36,36 +36,18 @@ public class LikesController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         postRepository.findById(post_id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        Like like = new Like(post_id, userId);
-
-        likeRepository.save(like);
-        return new RedirectView("/");
-    }
-
-    @DeleteMapping("/likes-delete")
-    public RedirectView deleteLike(@RequestParam("post_id") Long post_id, HttpSession session) {
-        Long userId = (Long) session.getAttribute("user_id");
-        Like like = likeRepository.findByUserIdAndPostId(userId, post_id)
-                .orElseThrow(() -> new RuntimeException("like not found"));
-        likeRepository.delete(like);
-        return new RedirectView("/");
-    }
-
-
-    @PostMapping("/likes")
-    public RedirectView createLike(@RequestBody Map<String, Long> payload, HttpSession session) {
-
-        System.out.println("THE FRONT END HAS MADE THE REQUEST");
-        Long post_id = payload.get("post_id");
-        Long userId = (Long) session.getAttribute("user_id");
-        userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        postRepository.findById(post_id)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
-
         Like like = new Like(userId, post_id);
-        likeRepository.save(like);
 
+        likeRepository.save(like);
         return new RedirectView("/");
     }
+
+//    @DeleteMapping("/likes-delete")
+//    public RedirectView deleteLike(@RequestParam("post_id") Long post_id, HttpSession session) {
+//        Long userId = (Long) session.getAttribute("user_id");
+//        Like like = likeRepository.findByUser_idAndPost_id(userId, post_id)
+//                .orElseThrow(() -> new RuntimeException("like not found"));
+//        likeRepository.delete(like);
+//        return new RedirectView("/");
+//    }
 }
