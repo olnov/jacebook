@@ -28,16 +28,21 @@ public class LikesController {
     @Autowired
     PostRepository postRepository;
 
-    @PostMapping("/like")
-    public RedirectView createLike(@RequestParam("post_id") Long post_id, HttpSession session) {
+    @PostMapping("/posts/{post_id}/like")
+    public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
         System.out.println("THE FRONT END HAS MADE THE REQUEST");
+
         Long userId = (Long) session.getAttribute("user_id");
+
+        System.out.println(userId);
+        System.out.println(post_id);
+
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         postRepository.findById(post_id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
         Like like = new Like(userId, post_id);
-
+        System.out.println(like);
         likeRepository.save(like);
         return new RedirectView("/");
     }
