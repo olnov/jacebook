@@ -7,16 +7,15 @@
 </head>
 <body>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
+<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark shadow-sm">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a id="feed" class="navbar-brand" th:href="@{/}">Feed</a>
+            <img src="/images/javatalks-logo-3.png" width="50" height="50">
         </div>
         <ul class="nav navbar-nav">
+            <li><a id="feed" class="nav-link" th:href="@{/}">Feed</a></li>
             <li><a id="friends" class="nav-link" th:href="@{/friends}">Friends</a></li>
-
             <li><a id="my-posts" class="nav-link" th:href="@{/my-posts}">My Posts</a></li>
-
             <li><a id="profile" class="nav-link" th:href="@{/profile}">Profile</a></li>
         </ul>
     </div>

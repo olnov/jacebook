@@ -11,10 +11,10 @@ public class NavbarController {
         return "friends";
     }
 
-    @GetMapping("/my-posts")
-    public String myPosts() {
-        return "my-posts";
-    }
+//    @GetMapping("/my-posts")
+//    public String myPosts() {
+//        return "my-posts";
+//    }
 
     @GetMapping("/profile")
     public String profile() {
