@@ -50,7 +50,7 @@ public class Post {
     public void setContent(String content) { this.content = content; }
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
-
+    public Long getId() {return this.id;}
 
 // ======= Explicit setter and getter ======== //
 
