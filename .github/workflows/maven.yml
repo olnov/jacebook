@@ -13,6 +13,17 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+env:
+  # Setting an environment variable with the value of a configuration variable
+  JDBC_CONNECTION: ${{ jacebook.JDBC_CONNECTION }}
+  JDBC_USER_NAME: ${{ jacebook.JDBC_USER_NAME }}
+  JDBC_PASSWORD: ${{ jacebook.JDBC_PASSWORD }}
+
+  OKTA_ISSUER_URL: ${{ jacebook.OKTA_ISSUER_URL }}
+  OKTA_CLIENT_ID: ${{ jacebook.OKTA_CLIENT_ID }}
+  OKTA_CLIENT_SECRET: ${{ jacebook.OKTA_CLIENT_SECRET }}
+
 
 jobs:
   build:
