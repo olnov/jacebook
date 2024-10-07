@@ -30,12 +30,11 @@ public class LikesController {
 
     @PostMapping("/posts/{post_id}/like")
     public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
-        System.out.println("THE FRONT END HAS MADE THE REQUEST");
 
         Long userId = (Long) session.getAttribute("user_id");
 
-        System.out.println(userId);
-        System.out.println(post_id);
+//        System.out.println(userId);
+//        System.out.println(post_id);
 
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -47,12 +46,16 @@ public class LikesController {
         return new RedirectView("/");
     }
 
-//    @DeleteMapping("/likes-delete")
-//    public RedirectView deleteLike(@RequestParam("post_id") Long post_id, HttpSession session) {
-//        Long userId = (Long) session.getAttribute("user_id");
-//        Like like = likeRepository.findByUser_idAndPost_id(userId, post_id)
-//                .orElseThrow(() -> new RuntimeException("like not found"));
-//        likeRepository.delete(like);
-//        return new RedirectView("/");
-//    }
+    @DeleteMapping("/posts/{post_id}/like")
+    public RedirectView deleteLike(@PathVariable("post_id") Long post_id, HttpSession session) {
+        System.out.println("THE FRONT END HAS MADE THE REQUEST");
+
+        Long userId = (Long) session.getAttribute("user_id");
+
+        Like like = likeRepository.findByUser_idAndPost_id(userId, post_id)
+                .orElseThrow(() -> new RuntimeException("like not found"));
+        System.out.println(like);
+        likeRepository.delete(like);
+        return new RedirectView("/");
+    }
 }

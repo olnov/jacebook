@@ -61,12 +61,11 @@
             });
         } else {
             image.src = '/images/hand-thumbs-up.svg';
-<!--            // Delete record from the likes table-->
-<!--            await fetch(`/posts/${postId}/like`, {-->
-<!--                method: 'DELETE',-->
-<!--                headers: { 'Content-Type': 'application/json' },-->
-<!--                body: JSON.stringify({ userId: myUserId })-->
-<!--            });-->
+            // Delete record from the likes table
+            await fetch(`/posts/${postId}/like`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
         }
     };
 
