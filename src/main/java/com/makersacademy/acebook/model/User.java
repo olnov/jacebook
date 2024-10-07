@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.Boolean.TRUE;
 
@@ -21,6 +22,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Like> likes;
 
     public User() {
         this.enabled = TRUE;

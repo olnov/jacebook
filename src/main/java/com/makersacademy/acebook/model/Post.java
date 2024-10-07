@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,6 +23,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    private Set<Like> likes;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

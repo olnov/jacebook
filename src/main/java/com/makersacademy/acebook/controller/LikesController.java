@@ -53,4 +53,11 @@ public class LikesController {
     }
 
 
+    // Added last night
+    @GetMapping("/posts/{post_id}/isLiked")
+    public ResponseEntity checkPostIsLiked(@PathVariable("post_id") Long post_id, HttpSession session) {
+        Long userId = (Long) session.getAttribute("user_id");
+        boolean isLiked = likeRepository.existsByPostIdAndUserId(post_id, userId);
+        return ResponseEntity.ok(isLiked);
+    }
 }
