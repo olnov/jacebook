@@ -34,7 +34,7 @@ public class CommentController {
         comment.setPost(post);
 
         commentRepository.save(comment);
-        return new RedirectView("/posts");
+        return new RedirectView("/");
     }
 
     @GetMapping("/comments/delete")
@@ -42,7 +42,7 @@ public class CommentController {
         Comment comment = commentRepository.findById(comment_id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid comment id:" + comment_id));
         commentRepository.delete(comment);
-        return new RedirectView("/posts");
+        return new RedirectView("/");
     }
 
     @PostMapping("/comments/update")
@@ -50,6 +50,6 @@ public class CommentController {
         Comment comment = commentRepository.findById(comment_id).get();
         comment.setContent(content);
         commentRepository.save(comment);
-        return new RedirectView("/posts");
+        return new RedirectView("/");
     }
 }

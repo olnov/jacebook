@@ -17,7 +17,16 @@
                 </div>
                 <p class="card-text" th:text="${post.content}"></p>
                 <p class="card-text text-muted text-end" th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
-                <p><img src="/images/thumbsup.svg">&nbsp;<img src="/images/comment.svg"></p>
+                <p><img src="/images/thumbsup.svg">&nbsp;<button type="button" th:data-new-comment-submit="'new_comment_submit_'+${post.id}" th:data-new-comment-content="'new_comment_content_'+${post.id}" th:onclick="document.getElementById(this.getAttribute('data-new-comment-content')).style='display: inline'; document.getElementById(this.getAttribute('data-new-comment-submit')).style='display: inline'" ><img src="/images/comment.svg"></button></p>
+                <form action="#" th:action="@{/comments}" th:object="${comment}" method="post">
+                    <input type="text" th:field="*{content}" th:id="'new_comment_content_'+${post.id}" style='display: none'>
+                    <input name="post_id" type="hidden" th:value="${post.id}">
+                    <input name="user_id" type="hidden" th:value="${userId}"}>
+                    <input type="submit" value="Submit" th:id="'new_comment_submit_'+${post.id}" style='display: none'>
+                </form>
+                <div th:each="existing_comment: ${post.comments}">
+                    <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}" ></ul>
+                </div>
             </div>
         </div>
     </div>
