@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:fragment="postcards">
-<div class="row align-middle align-items-end" style="width: 80%; margin: auto; justify-content: center;" th:each="post: ${posts}">
+<div class="row align-middle align-items-end" style="width: 100%; margin: auto; justify-content: center;" th:each="post: ${posts}">
     <div class="card mb-3" style="width: 40%;">
         <div class="row g-0">
             <div class="card-body">
@@ -17,6 +17,14 @@
                 </div>
                 <p class="card-text" th:text="${post.content}"></p>
                 <p class="card-text text-muted text-end" th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
+                <p>
+                    <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.id}]])">&nbsp;
+                    <img src="/images/comment.svg">&nbsp;
+<!--                    <img th:if="${userId == post.user.id}" src="/images/pencil.svg" th:onclick="editPost([[${post.id}]])">&nbsp;-->
+<!--                    <img th:if="${userId == post.user.id}" src="/images/trash.svg" th:onclick="deletePost([[${post.id}]])">&nbsp;-->
+                    <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal" data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
+                    <img th:if="${userId == post.user.id }" src="/images/trash.svg" data-bs-toggle="modal" data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">
+                </p>
                 <p><img src="/images/thumbsup.svg">&nbsp;<button type="button" th:data-new-comment-submit="'new_comment_submit_'+${post.id}" th:data-new-comment-content="'new_comment_content_'+${post.id}" th:onclick="document.getElementById(this.getAttribute('data-new-comment-content')).style='display: inline'; document.getElementById(this.getAttribute('data-new-comment-submit')).style='display: inline'" ><img src="/images/comment.svg"></button></p>
                 <form action="#" th:action="@{/comments}" th:object="${comment}" method="post">
                     <input type="text" th:field="*{content}" th:id="'new_comment_content_'+${post.id}" style='display: none'>
