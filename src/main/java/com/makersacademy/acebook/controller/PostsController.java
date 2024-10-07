@@ -22,6 +22,7 @@ public class PostsController {
 
     @Autowired
     PostRepository postRepository;
+    @Autowired
     CommentRepository commentRepository;
 
     @Autowired

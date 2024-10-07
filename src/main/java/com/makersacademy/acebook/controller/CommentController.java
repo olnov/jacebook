@@ -7,7 +7,9 @@ import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,32 +26,48 @@ public class CommentController {
     PostRepository postRepository;
 
     @PostMapping("/comments")
-    public RedirectView create(@ModelAttribute Comment comment, @RequestParam(name = "post_id") Long post_id, @RequestParam(name = "user_id") Long user_id) {
-        System.out.println(comment);
+    public ResponseEntity<String> createPost(@RequestParam("content") String content, @RequestParam("postId") Long post_id, HttpSession session) {
+        System.out.println("hello");
+        System.out.println(content);
+        System.out.println(post_id);
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            throw new RuntimeException("Not authorized");
+        }
+        Comment comment = new Comment();
+        comment.setContent(content);
         //Long user_id = 1L;
-        User user = userRepository.findById(user_id).get();
+        User user = userRepository.findById(userId).get();
         comment.setUser(user);
         //Long post_id = 1L;
         Post post = postRepository.findById(post_id).get();
         comment.setPost(post);
 
         commentRepository.save(comment);
-        return new RedirectView("/");
+        return ResponseEntity.ok("Created successfully");
     }
 
-    @GetMapping("/comments/delete")
-    public RedirectView deleteComment(@RequestParam(name="comment_id") Long comment_id){
+    @DeleteMapping("/comments/{comment_id}")
+    public ResponseEntity<String> deleteComment(@PathVariable(name="comment_id") Long comment_id, HttpSession session){
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            throw new RuntimeException("Not authorized");
+        }
         Comment comment = commentRepository.findById(comment_id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid comment id:" + comment_id));
         commentRepository.delete(comment);
-        return new RedirectView("/");
+        return ResponseEntity.ok("Deleted successfully");
     }
 
-    @PostMapping("/comments/update")
-    public RedirectView updateComment(@RequestParam(name="comment_id") Long comment_id, @RequestParam(name="content") String content){
+    @PutMapping("/comments/{comment_id}")
+    public ResponseEntity<String> updateComment(@PathVariable(name="comment_id") Long comment_id, @RequestParam(name="content") String content, HttpSession session){
+        Long userId = (Long) session.getAttribute("user_id");
+        if (userId == null) {
+            throw new RuntimeException("Not authorized");
+        }
         Comment comment = commentRepository.findById(comment_id).get();
         comment.setContent(content);
         commentRepository.save(comment);
-        return new RedirectView("/");
+        return ResponseEntity.ok("Comment updated successfully");
     }
 }

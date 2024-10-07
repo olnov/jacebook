@@ -19,19 +19,19 @@ public class Comment {
 
     //add line here for foreign key of user id
     @ManyToOne
-    @JoinColumn(name="post_id")//, referencedColumnName = "id")
+    @JoinColumn(name="post_id", referencedColumnName = "id")
     private Post post;
     //add line here for foreign key of post id
     @ManyToOne
-    @JoinColumn(name="user_id")//, referencedColumnName = "id")
+    @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
     public Comment() {}
 
-    public Comment(String content, Long post_id, Long user_id) {
+    public Comment(String content, Post post, User user) {
         this.content = content;
-        //this.post_id = post_id;
-        //this.user_id = user_id;
+        this.post = post;
+        this.user = user;
     }
 
 }
