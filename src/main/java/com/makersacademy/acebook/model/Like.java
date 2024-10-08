@@ -18,15 +18,18 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
-    private Long postId;
+
+
+//    @Column(name = "postId", insertable = false, updatable = false)
+//    private Long postId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "post_id", nullable = false)
-//    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "postId", nullable = false)
+    private Post post;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -35,9 +38,9 @@ public class Like {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Like(Long user_id, Long post_id) {
+    public Like(Long user_id, Post post) {
         this.userId = user_id;
-        this.postId = post_id;
+        this.post = post;
         this.createdAt = LocalDateTime.now();
     }
 

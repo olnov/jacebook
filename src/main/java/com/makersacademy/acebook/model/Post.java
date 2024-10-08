@@ -24,10 +24,14 @@ public class Post {
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
-//    @OneToMany(mappedBy = "post")
-//    private Set<Like> likes;
+    @OneToMany(mappedBy = "post")
+    private Set<Like> likes;
+
+
+
 
     // If posts.likes returns list of all likes that belong to post
+    // use hibernate / JPA @OneToMany
     // Then check to see if one of those likes was created by current user
     // This should be method on Post.java
 

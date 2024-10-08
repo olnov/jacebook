@@ -32,12 +32,14 @@ public class LikesController {
     @PostMapping("/posts/{post_id}/like")
     public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user_id");
-
+        System.out.println("THE FRONT END HAS MADE THE REQUEST");
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        postRepository.findById(post_id)
+        Post post = postRepository.findById(post_id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        Like like = new Like(userId, post_id);
+        System.out.println(userId);
+        System.out.println(post_id);
+        Like like = new Like(userId, post);
         System.out.println(like);
         likeRepository.save(like);
         return new RedirectView("/");
@@ -45,7 +47,6 @@ public class LikesController {
 
     @DeleteMapping("/posts/{post_id}/like")
     public ResponseEntity deleteLike(@PathVariable("post_id") Long post_id, HttpSession session) {
-//        System.out.println("THE FRONT END HAS MADE THE REQUEST");
         Long userId = (Long) session.getAttribute("user_id");
         Like like = likeRepository.findByUserIdAndPostId(userId, post_id)
                 .orElseThrow(() -> new RuntimeException("like not found"));
@@ -54,11 +55,11 @@ public class LikesController {
     }
 
 
-    // Added last night
-    @GetMapping("/posts/{post_id}/isLiked")
-    public ResponseEntity checkPostIsLiked(@PathVariable("post_id") Long post_id, HttpSession session) {
-        Long userId = (Long) session.getAttribute("user_id");
-        boolean isLiked = likeRepository.existsByPostIdAndUserId(post_id, userId);
-        return ResponseEntity.ok(isLiked);
-    }
+//    // Added last night
+//    @GetMapping("/posts/{post_id}/isLiked")
+//    public ResponseEntity checkPostIsLiked(@PathVariable("post_id") Long post_id, HttpSession session) {
+//        Long userId = (Long) session.getAttribute("user_id");
+//        boolean isLiked = likeRepository.existsByPostIdAndUserId(post_id, userId);
+//        return ResponseEntity.ok(isLiked);
+//    }
 }
