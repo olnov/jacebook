@@ -3,11 +3,14 @@ package com.makersacademy.acebook.repository;
 import com.makersacademy.acebook.model.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
     Optional<Like> findByUserIdAndPostId(Long user_id, Long post_id);
     boolean existsByPostIdAndUserId(Long postId, Long userId);
+
+    List<Like> findAllByPostId(Long postId);                   // <- This is new
 
     Optional<Like> findByUserId(Long user_id);
 }
