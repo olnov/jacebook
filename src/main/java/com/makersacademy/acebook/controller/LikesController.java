@@ -32,6 +32,7 @@ public class LikesController {
     @PostMapping("/posts/{post_id}/like")
     public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user_id");
+
         userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         postRepository.findById(post_id)
@@ -54,10 +55,10 @@ public class LikesController {
 
 
     // Added last night
-//    @GetMapping("/posts/{post_id}/isLiked")
-//    public ResponseEntity checkPostIsLiked(@PathVariable("post_id") Long post_id, HttpSession session) {
-//        Long userId = (Long) session.getAttribute("user_id");
-//        boolean isLiked = likeRepository.existsByPostIdAndUserId(post_id, userId);
-//        return ResponseEntity.ok(isLiked);
-//    }
+    @GetMapping("/posts/{post_id}/isLiked")
+    public ResponseEntity checkPostIsLiked(@PathVariable("post_id") Long post_id, HttpSession session) {
+        Long userId = (Long) session.getAttribute("user_id");
+        boolean isLiked = likeRepository.existsByPostIdAndUserId(post_id, userId);
+        return ResponseEntity.ok(isLiked);
+    }
 }

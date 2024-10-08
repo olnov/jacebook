@@ -27,6 +27,10 @@ public class Post {
 //    @OneToMany(mappedBy = "post")
 //    private Set<Like> likes;
 
+    // If posts.likes returns list of all likes that belong to post
+    // Then check to see if one of those likes was created by current user
+    // This should be method on Post.java
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -43,12 +47,10 @@ public class Post {
         this.user = user;
     }
 
-
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
-
 
 // ======= Explicit setter and getter ======== //
 

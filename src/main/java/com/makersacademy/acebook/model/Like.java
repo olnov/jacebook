@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
