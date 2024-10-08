@@ -38,6 +38,8 @@
 <!--                    <input type="submit" value="Submit" th:id="'new_comment_submit_'+${post.id}" style='display: none'>-->
 <!--                </form>-->
                 <div th:each="existing_comment: ${post.comments}">
+                    <img src="/images/user.png" class="img-fluid rounded-start" width="30" height="30">
+                    <p th:text="${existing_comment.user.username}"></p>
                     <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}" ></ul>
 <!--                    <form action="#" th:action="@{/comments/update}" method="post">-->
 <!--                        <input name="content" th:id="'edit_comment_' + ${existing_comment.id}" th:value="${existing_comment.content}" style="display: none">-->
