@@ -3,6 +3,10 @@ package com.makersacademy.acebook.model;
 import jakarta.persistence.*;
 
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -18,6 +22,8 @@ public class Post {
     private Long id;
     private String content;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
@@ -44,7 +50,7 @@ public class Post {
     public void setContent(String content) { this.content = content; }
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
-
+    public Long getId() {return this.id;}
 
 // ======= Explicit setter and getter ======== //
 

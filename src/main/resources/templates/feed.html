@@ -18,6 +18,10 @@
 <!--</h1>-->
 <!--<p>Your user ID is: <span th:text="${userId}"></span></p>-->
 
+<h1>
+      <div style="text-align: center;">Posts</div>
+</h1>
+
 <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
     <div class="card mb-3" style="width: 40%; margin: auto; margin-top: 10px;">
         <div class="card-body">
@@ -45,6 +49,9 @@
 <div th:insert="fragments/confirmation :: confirmation"></div>
 <div th:insert="fragments/edit :: edit"></div>
 <div th:insert="fragments/footer :: footer"></div>
+<div th:insert="fragments/confirmation_comment :: confirmation_comment"></div>
+<div th:insert="fragments/edit_comment :: edit_comment"></div>
+<div th:insert="fragments/new_comment :: new_comment"></div>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -62,14 +69,49 @@
             console.log("User id:",myUserId);
         };
 
+        const setNewComment = (postId)=> {
+            commentPostId = postId;
+        }
+
         const setPostId = (postId)=> {
             postDeleteId = postId;
+        };
+
+        const setCommentId = (commentId)=> {
+            commentDeleteId = commentId;
         };
 
         const setPostEdit = (postId, postContent)=> {
             postEditId = postId;
             document.getElementById("postContentEdit").value = postContent;
         }
+
+        const setCommentEdit = (commentId, commentContent)=> {
+            commentEditId = commentId;
+            document.getElementById("commentContentEdit").value = commentContent;
+        }
+
+        const newComment = async() => {
+            console.log(commentPostId);
+            commentContent = document.getElementById("commentContent").value;
+            console.log(commentContent);
+            if (!commentPostId || !commentContent){
+                return "Post id or content is not set";
+            }
+            try {
+                const formData = new FormData();
+                formData.append("content", commentContent);
+                formData.append("postId", commentPostId);
+                const requestOptions = {
+                    method: 'POST',
+                    body: formData
+                };
+                await fetch(`/comments`, requestOptions);
+                window.location.href = "/";
+            }catch(error){
+                console.log("Error:",error);
+            }
+        };
 
         const editPost = async() => {
             console.log(postEditId);
@@ -92,6 +134,27 @@
             }
         };
 
+        const editComment = async() => {
+            console.log(commentEditId);
+            updatedCommentContent = document.getElementById("commentContentEdit").value;
+            console.log(updatedCommentContent);
+            if (!commentEditId || !updatedCommentContent) {
+                return "Comment id or content is not set";
+            }
+            try {
+                const formData = new FormData();
+                formData.append("content", updatedCommentContent);
+                const requestOptions = {
+                    method: 'PUT',
+                    body: formData
+                };
+                await fetch(`/comments/${commentEditId}`, requestOptions);
+                window.location.href = "/";
+            }catch(error){
+                console.log("Error:",error);
+            }
+        };
+
         const deletePost = async () => {
             console.log(postDeleteId);
             if (!postDeleteId) {
@@ -99,6 +162,23 @@
             }
             try {
                 await fetch(`/posts/${postDeleteId}`, {
+                    method: 'DELETE',
+                    headers:
+                        { 'Content-type':'application/json' }
+                });
+                window.location.href = '/';
+            }catch(error){
+                console.log("Error: ",error);
+            }
+        }
+
+        const deleteComment = async () => {
+            console.log(commentDeleteId);
+            if (!commentDeleteId) {
+                return "Comment id is not set";
+            }
+            try {
+                await fetch(`/comments/${commentDeleteId}`, {
                     method: 'DELETE',
                     headers:
                         { 'Content-type':'application/json' }
