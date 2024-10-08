@@ -52,6 +52,17 @@
             var image = document.getElementById(postId);
             var myUserId = /*[[${userId}]]*/ 'default'; // Assuming userId is available here
 
+// TEST
+
+ // if (await fetch(`/posts/${postId}/isLiked` == True)
+            // Delete record from the likes table
+            //await fetch(`/posts/${postId}/like`, {
+               // method: 'DELETE',
+              //  headers: { 'Content-Type': 'application/json' },
+
+
+
+
         if (image.src.includes('hand-thumbs-up.svg')) {
             image.src = '/images/hand-thumbs-up-fill.svg';
             // Add a record to the likes table
@@ -68,6 +79,9 @@
             });
         }
     };
+<!--    User goes onto feed template > need to check if post is liked > fetch API calls controller @GetMapping("/posts/{post_id}/isLiked") >
+<!--    if true > fill thumb and only give delete option-->
+<!--    if not liked returns false > usual functionality/feature as above -->
 
 
         const setPostId = (postId)=> {

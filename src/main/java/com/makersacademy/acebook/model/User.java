@@ -23,8 +23,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Like> likes;
+//    @OneToMany(mappedBy = "user")
+//    private Set<Like> likes;
 
     public User() {
         this.enabled = TRUE;

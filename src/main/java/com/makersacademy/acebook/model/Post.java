@@ -24,8 +24,8 @@ public class Post {
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "post")
-    private Set<Like> likes;
+//    @OneToMany(mappedBy = "post")
+//    private Set<Like> likes;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
