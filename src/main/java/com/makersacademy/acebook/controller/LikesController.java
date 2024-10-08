@@ -35,13 +35,12 @@ public class LikesController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Post post = postRepository.findById(post_id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        if (likeRepository.findByUserIdAndPostId(userId, post_id).isPresent()) { // Check to see if already liked
+            return new RedirectView("/"); }
+
         Like like = new Like(user, post);
         likeRepository.save(like);
-
-//        System.out.println("THE FRONT END HAS MADE THE REQUEST");
-//        List<Like> likes = likeRepository.findAllByPostId(post_id);
-//        System.out.println(likes);
-
         return new RedirectView("/");
     }
 

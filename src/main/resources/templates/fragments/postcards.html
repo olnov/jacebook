@@ -20,12 +20,13 @@
                 <p>
                     <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">&nbsp;
                     <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
+
+                    <span th:text="${post.getLikeCount()}"></span> Likes
+                </p>
+
                     <img src="/images/comment.svg">&nbsp;
-<!--                    <img th:if="${userId == post.user.id}" src="/images/pencil.svg" th:onclick="editPost([[${post.id}]])">&nbsp;-->
-<!--                    <img th:if="${userId == post.user.id}" src="/images/trash.svg" th:onclick="deletePost([[${post.id}]])">&nbsp;-->
                     <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal" data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
                     <img th:if="${userId == post.user.id }" src="/images/trash.svg" data-bs-toggle="modal" data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">
-                </p>
             </div>
         </div>
     </div>

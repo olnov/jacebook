@@ -21,7 +21,6 @@ public class Post {
     private Long id;
     private String content;
 
-
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
@@ -34,13 +33,8 @@ public class Post {
         return userIds.contains(userId);
     }
 
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-//    public Post() {
-//        this.createdAt = LocalDateTime.now();
-//    }
 
     public Post() {}
 
@@ -51,23 +45,31 @@ public class Post {
         this.user = user;
     }
 
+// Content Getter and Setters
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }
+
+
+// User Getter and Setters
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
 
-// ======= Explicit setter and getter ======== //
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
+// CreatedAt Getter and Setter
     public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
+    return this.createdAt;
+}
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
+// ID Getter
     public Long getId() {
         return this.id;
+    }
+
+
+
+// Like Methods
+    public int getLikeCount() {
+        return this.likes.size();
     }
 
 }
