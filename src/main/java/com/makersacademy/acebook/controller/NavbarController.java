@@ -16,8 +16,8 @@ public class NavbarController {
 //        return "my-posts";
 //    }
 
-    @GetMapping("/profile")
-    public String profile() {
-        return "profile";
-    }
+//    @GetMapping("/profile")
+//    public String profile() {
+//        return "profile";
+//    }
 }
