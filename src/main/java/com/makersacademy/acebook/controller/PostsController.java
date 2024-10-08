@@ -4,6 +4,8 @@ import com.makersacademy.acebook.model.User;
 import jakarta.servlet.http.HttpSession;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.repository.PostRepository;
+import com.makersacademy.acebook.model.Comment;
+import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,8 @@ public class PostsController {
 
     @Autowired
     PostRepository postRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -32,6 +36,7 @@ public class PostsController {
         model.addAttribute("userId", userId);
         model.addAttribute("posts", posts);
         model.addAttribute("post", new Post());
+        model.addAttribute("comment", new Comment());
         return "feed";
     }
 

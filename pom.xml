@@ -28,6 +28,9 @@
     </scm>
     <properties>
         <java.version>21</java.version>
+        <flyway.user>postgres</flyway.user>
+        <flyway.password>12345678</flyway.password>
+        <flyway.url>jdbc:postgresql://localhost:5432/acebook_springboot_development</flyway.url>
     </properties>
     <dependencies>
         <dependency>
@@ -95,7 +98,6 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
