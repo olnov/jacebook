@@ -48,11 +48,6 @@ public class PostsController {
         model.addAttribute("post", new Post());
         return "feed";
     }
-//    @PostMapping("/posts")
-//    public RedirectView create(@ModelAttribute Post post) {
-//        postRepository.save(post);
-//        return new RedirectView("/posts");
-//    }
 
     @PostMapping("/posts")
     public RedirectView create(@RequestParam("content") String content, HttpSession session) {

@@ -18,7 +18,8 @@
                 <p class="card-text" th:text="${post.content}"></p>
                 <p class="card-text text-muted text-end" th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
                 <p>
-                    <img th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">&nbsp;
+                    <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">&nbsp;
+                    <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
                     <img src="/images/comment.svg">&nbsp;
 <!--                    <img th:if="${userId == post.user.id}" src="/images/pencil.svg" th:onclick="editPost([[${post.id}]])">&nbsp;-->
 <!--                    <img th:if="${userId == post.user.id}" src="/images/trash.svg" th:onclick="deletePost([[${post.id}]])">&nbsp;-->

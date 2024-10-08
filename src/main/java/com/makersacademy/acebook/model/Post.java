@@ -6,8 +6,10 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -25,15 +27,13 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private Set<Like> likes;
+    private List<Like> likes;
 
+    public Boolean isLikedBy(Long userId){
+        List<Long> userIds = this.likes.stream().map(like -> like.getUser().getId()).toList();
+        return userIds.contains(userId);
+    }
 
-
-
-    // If posts.likes returns list of all likes that belong to post
-    // use hibernate / JPA @OneToMany
-    // Then check to see if one of those likes was created by current user
-    // This should be method on Post.java
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -57,9 +57,6 @@ public class Post {
     public void setUser() { this.user = user; }
 
 // ======= Explicit setter and getter ======== //
-
-
-
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;

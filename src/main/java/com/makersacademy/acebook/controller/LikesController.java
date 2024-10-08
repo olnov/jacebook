@@ -2,6 +2,7 @@ package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Like;
 import com.makersacademy.acebook.model.Post;
+import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.LikeRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
@@ -30,16 +31,16 @@ public class LikesController {
     @PostMapping("/posts/{post_id}/like")
     public RedirectView createLike(@PathVariable("post_id") Long post_id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user_id");
-        userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Post post = postRepository.findById(post_id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        Like like = new Like(userId, post);
+        Like like = new Like(user, post);
         likeRepository.save(like);
 
-        System.out.println("THE FRONT END HAS MADE THE REQUEST");
-        List<Like> likes = likeRepository.findAllByPostId(post_id);
-        System.out.println(likes);
+//        System.out.println("THE FRONT END HAS MADE THE REQUEST");
+//        List<Like> likes = likeRepository.findAllByPostId(post_id);
+//        System.out.println(likes);
 
         return new RedirectView("/");
     }
@@ -53,9 +54,7 @@ public class LikesController {
         return ResponseEntity.ok("Deleted like");
     }
 
-
-
-
+//===== NOT NEEDED???
     @GetMapping("/posts/{post_id}")
     public String listOfLikes(@PathVariable("post_id") Long postId, Model model) {
         List<Like> likes = likeRepository.findAllByPostId(postId);
@@ -71,8 +70,4 @@ public class LikesController {
         System.out.println(likes);
         return "feed";
     }
-
-
-
-
 }
