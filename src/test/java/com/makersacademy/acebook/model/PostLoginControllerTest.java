@@ -56,7 +56,7 @@ class PostLoginControllerTest {
         String result = postLoginController.handlePostLogin(authentication, session);
 
         // Assert
-        assertEquals("redirect:/posts", result);  // Check the redirect
+        assertEquals("redirect:/", result);  // Check the redirect
         verify(session).setAttribute("user_id", userId);  // Verify session attribute was set
         verify(userRepository, never()).save(any());  // Ensure no new user was saved
     }
@@ -81,7 +81,7 @@ class PostLoginControllerTest {
         String result = postLoginController.handlePostLogin(authentication, session);
 
         // Assert
-        assertEquals("redirect:/posts", result);  // Check the redirect
+        assertEquals("redirect:/", result);  // Check the redirect
         verify(userRepository).save(any(User.class));  // Verify that the new user was saved
         verify(session).setAttribute("user_id", userId);  // Verify session attribute was set for the new user
     }
