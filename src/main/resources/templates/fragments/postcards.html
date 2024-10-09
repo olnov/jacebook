@@ -17,18 +17,16 @@
                         </div>
                         <p class="card-text" th:text="${post.content}"></p>
                         <p class="card-text text-muted text-end" th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
-                        <p>
-                            <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">&nbsp;
-                            <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
-                            <span th:text="${post.getLikeCount()}"></span> Likes
-                        </p>
-                        <img src="/images/comment.svg">&nbsp;
+                        <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
+                        <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
+                        <span th:text="${post.getLikeCount()}"></span> Likes
+                        <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal" th:onclick="setNewComment([[${post.id}]])">&nbsp;
                         <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal" data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
                         <img th:if="${userId == post.user.id}" src="/images/trash.svg" data-bs-toggle="modal" data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">
-                        <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.id}]])">&nbsp;
-                        <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal" th:onclick="setNewComment([[${post.id}]])">&nbsp;
+<!--                        <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.id}]])">&nbsp;-->
 
                         <div th:each="existing_comment: ${post.comments}">
+                            <br>
                             <img src="/images/user.png" class="img-fluid rounded-start" width="30" height="30">
                             <p th:text="${existing_comment.user.username}"></p>
                             <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}"></ul>
