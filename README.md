@@ -1,6 +1,6 @@
 # Acebook
 
-The application uses:
+The application uses :
   - `maven` to build the project
   - `thymeleaf` for templating
   - `flyway` to manage `postgres` db migrations
