@@ -39,6 +39,9 @@ public class Like {
         this.post = post;
         this.createdAt = LocalDateTime.now();
     }
+//  constructor for liketest
+    public Like(Long userId2, Long postId) {
+    }
 
     public Long getId() {
         return id;
