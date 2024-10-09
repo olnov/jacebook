@@ -7,17 +7,45 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-<div th:insert="../templates/navbar.html :: navbar">  </div>
-<h1>Friends list</h1>
+<div th:insert="../templates/navbar.html :: navbar"></div>
 
+<!-- Section to display friends -->
+<h1>Your Friends</h1>
+<div th:if="${#lists.isEmpty(friends)}">
+    <p>You haven't added any friends yet.</p>
+</div>
+<div th:each="friend : ${friends}">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <!-- Display friend's username -->
+            <h5 th:text="${friend.username}"></h5>
 
+            <!-- Form to remove friend -->
+            <form th:action="@{/users/{userId}/friends/{friendId}(userId=${session.user_id}, friendId=${friend.id})}"
+                  method="post" onsubmit="event.preventDefault(); removeFriend(${session.user_id}, ${friend.id});">
+                <button type="submit" class="btn btn-danger">Remove Friend</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Section to display all users -->
 <h1>All Users</h1>
 <div th:each="user : ${users}">
-    <h5 th:text="${user.username}"></h5>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <!-- Display username -->
+            <h5 th:text="${user.username}"></h5>
+
+            <!-- Display 'Add Friend' button only if the user is not already a friend and not the current user -->
+            <form th:if="${#lists.contains(friends, user) == false && user.id != session.user_id}"
+                  th:action="@{/users/{userId}/friends/{friendId}(userId=${session.user_id}, friendId=${user.id})}"
+                  method="post">
+                <button type="submit" class="btn btn-primary">Add Friend</button>
+            </form>
+        </div>
+    </div>
 </div>
-<script  th:inline="javascript">
-    /*<![CDATA[*/
-/*]]>*/
-</script>
+
 </body>
 </html>

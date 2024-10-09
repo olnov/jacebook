@@ -28,6 +28,11 @@ public class UsersController {
         Optional<User> userOptional = userRepository.findById(userId);
         Optional<User> friendOptional = userRepository.findById(friendId);
 
+        // Check if the user is trying to add themselves as a friend
+        if (userId.equals(friendId)) {
+            return "You cannot add yourself as a friend";
+        }
+
         if (userOptional.isPresent() && friendOptional.isPresent()) {
             User user = userOptional.get();
             User friend = friendOptional.get();
@@ -68,6 +73,13 @@ public class UsersController {
             return null; // Handle user not found
         }
     }
+
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+
 }
 
 //    @GetMapping("/users/loggedin")

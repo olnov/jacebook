@@ -1,7 +1,9 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.User;
+import com.makersacademy.acebook.model.UserDTO;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class NavbarController {
@@ -27,19 +30,37 @@ public class NavbarController {
     }
 
     @GetMapping("/friends")
-    public String getAllUsers(Model model) {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> currentUser = userRepository.findByUsername(currentUsername); // Find current user by username
-        User user = currentUser.get();
+    public String getAllUsers(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("user_id");
 
-        List<User> friends = user.getFriends(); // Get the user's friends
-        model.addAttribute("friends", friends); // Add friends list to model
+        if (userId == null) {
+            return "redirect:/login";
+        }
 
-        List<User> users = userRepository.findAll(); // Fetch all users
-        model.addAttribute("users", users); // Add users list to model
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
 
-        return "friends"; // Return Thymeleaf template (friends.html)
+            // Fetch user's friends and convert them to UserDTO to avoid circular reference
+            List<UserDTO> friends = user.getFriends().stream()
+                    .map(friend -> new UserDTO(friend.getId(), friend.getUsername()))
+                    .collect(Collectors.toList());
+            model.addAttribute("friends", friends);
+        } else {
+            return "error";
+        }
+
+        // Fetch all users and convert them to UserDTO
+        List<UserDTO> users = userRepository.findAll().stream()
+                .map(user -> new UserDTO(user.getId(), user.getUsername()))
+                .collect(Collectors.toList());
+        model.addAttribute("users", users);
+
+        return "friends";
     }
+
+
+
 
 
 }
