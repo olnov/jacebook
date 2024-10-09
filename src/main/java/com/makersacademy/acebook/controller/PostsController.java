@@ -30,7 +30,6 @@ public class PostsController {
 
     @GetMapping("/")
     public String index(HttpSession session, Model model) {
-//        Iterable<Post> posts = repository.findAll();
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         Long userId = (Long) session.getAttribute("user_id");
         model.addAttribute("userId", userId);
@@ -39,6 +38,7 @@ public class PostsController {
         model.addAttribute("comment", new Comment());
         return "feed";
     }
+
 
     @GetMapping("/my-posts")
     public String myPosts(HttpSession session, Model model) {
@@ -49,11 +49,6 @@ public class PostsController {
         model.addAttribute("post", new Post());
         return "feed";
     }
-//    @PostMapping("/posts")
-//    public RedirectView create(@ModelAttribute Post post) {
-//        postRepository.save(post);
-//        return new RedirectView("/posts");
-//    }
 
     @PostMapping("/posts")
     public RedirectView create(@RequestParam("content") String content, HttpSession session) {
