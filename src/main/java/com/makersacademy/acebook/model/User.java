@@ -21,8 +21,17 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "FRIENDS",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<User> friends = new ArrayList<>();
 
     public User() {
         this.enabled = TRUE;
@@ -47,5 +56,21 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
+
+    public void addFriend(User friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(User friend) {
+        friends.remove(friend);
     }
 }

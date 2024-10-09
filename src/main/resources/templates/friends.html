@@ -10,5 +10,14 @@
 <div th:insert="../templates/navbar.html :: navbar">  </div>
 <h1>Friends list</h1>
 
+
+<h1>All Users</h1>
+<div th:each="user : ${users}">
+    <h5 th:text="${user.username}"></h5>
+</div>
+<script  th:inline="javascript">
+    /*<![CDATA[*/
+/*]]>*/
+</script>
 </body>
 </html>
