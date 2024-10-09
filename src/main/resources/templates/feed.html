@@ -18,15 +18,17 @@
 <!--</h1>-->
 <!--<p>Your user ID is: <span th:text="${userId}"></span></p>-->
 
-<h1>
-      <div style="text-align: center;">Posts</div>
-</h1>
+<!--<h1>-->
+<!--      <div style="text-align: center;">Posts</div>-->
+<!--</h1>-->
 
 <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
     <div class="card mb-3" style="width: 40%; margin: auto; margin-top: 10px;">
         <div class="card-body">
             <div class="d-flex mb-3">
-                <img src="/images/user.png" class="rounded-circle me-3" alt="User Profile" style="width: 50px; height: 50px;">
+                <img th:src="${currentUser.user_photo != null ? currentUser.user_photo : '/images/user.png'}"
+                     class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 35px;">
+<!--                <img src="/images/user.png" class="rounded-circle me-3" alt="User Profile" style="width: 50px; height: 50px;">-->
                 <div class="w-100">
                     <div sec:authorize="isAuthenticated()" id="greeting">
                         <span sec:authentication="principal.attributes['email']" class="fw-bold">
