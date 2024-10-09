@@ -26,7 +26,6 @@ public class PostsController {
 
     @GetMapping("/")
     public String index(HttpSession session, Model model) {
-//        Iterable<Post> posts = repository.findAll();
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         Long userId = (Long) session.getAttribute("user_id");
         model.addAttribute("userId", userId);
@@ -35,9 +34,6 @@ public class PostsController {
         return "feed";
     }
 
-    // When loading page
-    // Check for each user if each respective post has respectively been liked
-    // If yes, fill in thumb
 
     @GetMapping("/my-posts")
     public String myPosts(HttpSession session, Model model) {

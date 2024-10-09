@@ -59,6 +59,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             });
+            window.location.href = "/";
         } else {
             image.src = '/images/hand-thumbs-up.svg';
             // Delete record from the likes table
@@ -66,6 +67,7 @@
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             });
+            window.location.href = "/";
         }
     };
 

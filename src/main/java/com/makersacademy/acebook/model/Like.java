@@ -17,11 +17,7 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private Long userId;
 
-
-//    @Column(name = "postId", insertable = false, updatable = false)
-//    private Long postId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

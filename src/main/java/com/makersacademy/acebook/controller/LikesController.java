@@ -47,26 +47,14 @@ public class LikesController {
     @DeleteMapping("/posts/{post_id}/like")
     public ResponseEntity deleteLike(@PathVariable("post_id") Long post_id, HttpSession session) {
         Long userId = (Long) session.getAttribute("user_id");
+        userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        postRepository.findById(post_id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
         Like like = likeRepository.findByUserIdAndPostId(userId, post_id)
                 .orElseThrow(() -> new RuntimeException("like not found"));
         likeRepository.delete(like);
         return ResponseEntity.ok("Deleted like");
     }
 
-//===== NOT NEEDED???
-    @GetMapping("/posts/{post_id}")
-    public String listOfLikes(@PathVariable("post_id") Long postId, Model model) {
-        List<Like> likes = likeRepository.findAllByPostId(postId);
-        System.out.println("THE FRONT END HAS MADE THE REQUEST");
-        model.addAttribute("likes", likes);
-
-        if (likes.isEmpty()) {
-            System.out.println("No likes found for post with id: " + postId);
-        } else {
-            System.out.println("Likes found for post with id: " + postId + ": " + likes);
-        }
-
-        System.out.println(likes);
-        return "feed";
-    }
 }
