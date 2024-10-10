@@ -2,41 +2,60 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Cards</title>
 </head>
 <body>
-    <div th:fragment="postcards">
-        <div class="row align-middle align-items-end" style="width: 100%; margin: auto; justify-content: center;" th:each="post: ${posts}">
-            <div class="card mb-3" style="width: 40%;">
-                <div class="row g-0">
-                    <div class="card-body">
-                        <div>
-                            <img src="/images/user.png" class="img-fluid rounded-start" width="50" height="50">
-                            <h5 class="card-title" th:text="${post.user.username}"></h5>
-                        </div>
-                        <p class="card-text" th:text="${post.content}"></p>
-                        <p class="card-text text-muted text-end" th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
-                        <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
-                        <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
-                        <span th:text="${post.getLikeCount()}"></span> Likes
-                        <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal" th:onclick="setNewComment([[${post.id}]])">&nbsp;
-                        <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal" data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
-                        <img th:if="${userId == post.user.id}" src="/images/trash.svg" data-bs-toggle="modal" data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">
-<!--                        <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.id}]])">&nbsp;-->
-
-                        <div th:each="existing_comment: ${post.comments}">
-                            <br>
-                            <img src="/images/user.png" class="img-fluid rounded-start" width="30" height="30">
-                            <p th:text="${existing_comment.user.username}"></p>
-                            <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}"></ul>
-                            <img th:if="${userId == existing_comment.user.id}" src="/images/pencil.svg" data-bs-toggle="modal" data-bs-target="#editCommentModal" th:onclick="setCommentEdit([[${existing_comment.id}]],[[${existing_comment.content}]])">&nbsp;
-                            <img th:if="${userId == existing_comment.user.id}" src="/images/trash.svg" data-bs-toggle="modal" data-bs-target="#confirmationCommentModal" th:onclick="setCommentId([[${existing_comment.id}]])">
-                        </div>
+<div th:fragment="postcards">
+    <div class="row align-middle align-items-end" style="width: 100%; margin: auto; justify-content: center;"
+         th:each="post: ${posts}">
+        <div class="card mb-3" style="width: 40%;">
+            <div class="row g-0">
+                <div class="card-body">
+                    <div>
+                        <img th:src="${post.user.user_photo != null ? post.user.user_photo : '/images/user.png'}"
+                             class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px;">
+                        <h6 class="card-title" th:text="${post.user.username}"></h6>
                     </div>
+                    <p class="card-text" th:text="${post.content}"></p>
+                    <p class="card-text text-muted text-end"
+                       th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
+                    <p>
+                        <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24"
+                             th:onclick="setLike([[${post.id}]])">&nbsp;
+                        <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal"
+                             th:onclick="setNewComment([[${post.id}]])">&nbsp;
+                        <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal"
+                             data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
+                        <img th:if="${userId == post.user.id }" src="/images/trash.svg" data-bs-toggle="modal"
+                             data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">
+                    </p>
+                    <div th:each="existing_comment: ${post.comments}" style="
+                                            background-color: ivory;
+                                            padding: 5px;
+                                            border: solid 1px gray;
+                                            margin: 5px;
+                    ">
+                        <img th:src="${existing_comment.user.user_photo != null ? existing_comment.user.user_photo : '/images/user.png'}"
+                                                 class="me-4" style="border-radius: 50%; object-fit: cover; width: 30px; height: 30px;">
+                        <p th:text="${existing_comment.user.username}"></p>
+                        <ul th:id="'comment_' + ${existing_comment.id}" th:text="${existing_comment.content}"></ul>
+
+                        <img th:if="${userId == existing_comment.user.id}" src="/images/pencil.svg"
+                             data-bs-toggle="modal" data-bs-target="#editCommentModal"
+                             th:onclick="setCommentEdit([[${existing_comment.id}]],[[${existing_comment.content}]])">&nbsp;
+
+                        <img th:if="${userId == existing_comment.user.id }" src="/images/trash.svg"
+                             data-bs-toggle="modal" data-bs-target="#confirmationCommentModal"
+                             th:onclick="setCommentId([[${existing_comment.id}]])">
+
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

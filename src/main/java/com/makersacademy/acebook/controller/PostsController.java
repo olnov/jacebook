@@ -32,6 +32,8 @@ public class PostsController {
     public String index(HttpSession session, Model model) {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         Long userId = (Long) session.getAttribute("user_id");
+        User currentUser = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
+        model.addAttribute("currentUser",currentUser);
         model.addAttribute("userId", userId);
         model.addAttribute("posts", posts);
         model.addAttribute("post", new Post());
@@ -44,6 +46,8 @@ public class PostsController {
     public String myPosts(HttpSession session, Model model) {
         Long userId = (Long) session.getAttribute("user_id");
         List<Post> myPostList = postRepository.findAllByUserId(userId);
+        User currentUser = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
+        model.addAttribute("currentUser",currentUser);
         model.addAttribute("userId", userId);
         model.addAttribute("posts", myPostList);
         model.addAttribute("post", new Post());
