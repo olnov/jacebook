@@ -18,8 +18,8 @@
                              class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px;">
                         <h6 class="card-title" th:text="${post.user.username}"></h6>
                     </div>
-                    <p th:if="${!post.is_image}" class="card-text" th:text="${post.content}"></p>
-                    <img th:if="${post.is_image}" th:src="${post.content}">
+                    <p th:if="${!post.getIs_image()}" class="card-text" th:text="${post.content}"></p>
+                    <img th:if="${post.getIs_image()}" th:src="${post.content}">
                     <p class="card-text text-muted text-end"
                        th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
                     <p>

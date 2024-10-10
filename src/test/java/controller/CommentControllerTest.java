@@ -42,7 +42,7 @@ public class CommentControllerTest {
         MockitoAnnotations.openMocks(this);}
 
     @Test
-    void testUserCanCreateNewComment(){
+    void testUserCanCreateNewComment() {
         User user1 = new User("user1@example.com");
         user1.setId(1L);
         User user2 = new User("user2@example.com");
@@ -58,9 +58,14 @@ public class CommentControllerTest {
         ResponseEntity<String> result = commentController.createPost(content, post.getId(), session);
 
         assertEquals(ResponseEntity.ok("Created successfully"), result);
-        verify(commentRepository).save(new Comment("test content", post, user2));
-
+        // Use refEq for comparing the Comment objects by value instead of reference
+        verify(commentRepository).save(argThat(comment ->
+                comment.getContent().equals("test content") &&
+                        comment.getPost().equals(post) &&
+                        comment.getUser().equals(user2)
+        ));
     }
+
 
     @Test
     void testUserCanDeleteComment(){

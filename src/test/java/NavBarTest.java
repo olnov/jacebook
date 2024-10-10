@@ -49,6 +49,8 @@ public class NavBarTest {
         // Find and check if the "Feed" link exists
         WebElement profileLink = driver.findElement(By.linkText("Profile"));
         Assert.assertEquals("Profile", profileLink.getText());
+        WebElement logoutLink = driver.findElement(By.linkText("Logout"));
+        Assert.assertEquals("Logout", logoutLink.getText());
     }
 
     @Test
