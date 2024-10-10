@@ -43,7 +43,16 @@ public class Post {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+
     private Boolean is_image;
+
+    public Boolean getIs_image() {
+        return is_image;
+    }
+
+    public void setIs_image(Boolean is_image) {
+        this.is_image = is_image;
+    }
 
     public Post() {}
 
