@@ -47,14 +47,18 @@ public class Post {
 
     public Post() {}
 
-
+    public Post(String content, User user){
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+        this.user = user;
+        this.is_image = false;
+    }
     public Post(String content, User user, Boolean is_image) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
         this.user = user;
         this.is_image = is_image;
     }
-
 // Content Getter and Setters
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }
