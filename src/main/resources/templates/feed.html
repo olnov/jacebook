@@ -11,7 +11,7 @@
 
 <body class="bg-light text-dark">
 
-<div th:insert="../templates/navbar.html :: navbar">  </div>
+<div th:insert="../templates/navbar.html :: navbar"></div>
 
 <!--<h1>-->
 <!--    <div style="text-align: center;">Posts</div>-->
@@ -28,13 +28,13 @@
             <div class="d-flex mb-3">
                 <img th:src="${currentUser.user_photo != null ? currentUser.user_photo : '/images/user.png'}"
                      class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 35px;">
-<!--                <img src="/images/user.png" class="rounded-circle me-3" alt="User Profile" style="width: 50px; height: 50px;">-->
                 <div class="w-100">
                     <div sec:authorize="isAuthenticated()" id="greeting">
                         <span sec:authentication="principal.attributes['email']" class="fw-bold">
                         </span>
                     </div>
-                    <textarea class="form-control" rows="3" placeholder="Share your thoughts..." th:field="*{content}"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Share your thoughts..."
+                              th:field="*{content}"></textarea>
                 </div>
             </div>
 
