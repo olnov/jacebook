@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.Boolean.TRUE;
 
@@ -22,6 +23,7 @@ public class User {
     private String bio;
     private String user_photo;
     private boolean enabled;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();

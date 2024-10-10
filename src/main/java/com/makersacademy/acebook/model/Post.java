@@ -10,7 +10,10 @@ import java.util.List;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -29,12 +32,16 @@ public class Post {
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(mappedBy = "post")
+    private List<Like> likes;
+
+    public Boolean isLikedBy(Long userId){
+        List<Long> userIds = this.likes.stream().map(like -> like.getUser().getId()).toList();
+        return userIds.contains(userId);
+    }
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-//    public Post() {
-//        this.createdAt = LocalDateTime.now();
-//    }
 
     public Post() {}
 
@@ -45,21 +52,30 @@ public class Post {
         this.user = user;
     }
 
-
+// Content Getter and Setters
     public String getContent() { return this.content; }
     public void setContent(String content) { this.content = content; }
+
+
+// User Getter and Setters
     public User getUser() { return user; }
     public void setUser() { this.user = user; }
-    public Long getId() {return this.id;}
 
-// ======= Explicit setter and getter ======== //
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+// CreatedAt Getter and Setter
+    public LocalDateTime getCreatedAt() {
+    return this.createdAt;
+}
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+ // ID Getter
+    public Long getId() {
+        return this.id;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
+// Like Methods
+    public int getLikeCount() {
+        return this.likes.size();
     }
 
 }

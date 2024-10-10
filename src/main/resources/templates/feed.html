@@ -57,19 +57,28 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-        const setLike = (postId) => {
-            console.log("Post id:",postId);
+        const setLike = async (postId) => {
             var image = document.getElementById(postId);
-            if (image.src.includes('hand-thumbs-up.svg')) {
-                image.src = '/images/hand-thumbs-up-fill.svg';
-                // Add a record to the likes table
-            } else {
-                image.src = '/images/hand-thumbs-up.svg';
-                // Delete record from the likes table
-            }
-            var myUserId = /*[[${userId}]]*/ 'default';
-            console.log("User id:",myUserId);
-        };
+            var myUserId = /*[[${userId}]]*/ 'default'; // Assuming userId is available here
+
+        if (image.src.includes('hand-thumbs-up.svg')) {
+            image.src = '/images/hand-thumbs-up-fill.svg';
+            // Add a record to the likes table
+            await fetch(`/posts/${postId}/like`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            window.location.href = "/";
+        } else {
+            image.src = '/images/hand-thumbs-up.svg';
+            // Delete record from the likes table
+            await fetch(`/posts/${postId}/like`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            window.location.href = "/";
+        }
+    };
 
         const setNewComment = (postId)=> {
             commentPostId = postId;
