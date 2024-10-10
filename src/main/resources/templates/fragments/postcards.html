@@ -20,7 +20,7 @@
                     </div>
                     <p class="card-text" th:text="${post.content}"></p>
                     <p class="card-text text-muted text-end"
-                       th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
+                       th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}">01.10.2024</p>
                     <p>
 <!--                         <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24"
                              th:onclick="setLike([[${post.id}]])">&nbsp; -->
