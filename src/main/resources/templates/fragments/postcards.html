@@ -22,8 +22,11 @@
                     <p class="card-text text-muted text-end"
                        th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
                     <p>
-                        <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24"
-                             th:onclick="setLike([[${post.id}]])">&nbsp;
+<!--                         <img th:id="${post.id}" src="/images/hand-thumbs-up.svg" width="24" height="24"
+                             th:onclick="setLike([[${post.id}]])">&nbsp; -->
+                        <img th:if="${!post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
+                        <img th:if="${post.isLikedBy(userId)}" th:id="${post.getId()}" src="/images/hand-thumbs-up-fill.svg" width="24" height="24" th:onclick="setLike([[${post.getId()}]])">
+                        <span th:text="${post.getLikeCount()}"></span> Likes
                         <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal"
                              th:onclick="setNewComment([[${post.id}]])">&nbsp;
                         <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal"
