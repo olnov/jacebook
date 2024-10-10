@@ -59,7 +59,7 @@ public class PostsController {
         Long userId = (Long) session.getAttribute("user_id");
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Post post = new Post(content,user);
+        Post post = new Post(content,user,false);
         postRepository.save(post);
 //        return  new RedirectView("/posts");
         return new RedirectView("/");

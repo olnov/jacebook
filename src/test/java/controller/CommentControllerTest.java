@@ -47,7 +47,7 @@ public class CommentControllerTest {
         user1.setId(1L);
         User user2 = new User("user2@example.com");
         user2.setId(2L);
-        Post post = new Post("example post", user1);
+        Post post = new Post("example post", user1, false);
         post.setId(1L);
         String content = "test content";
 
@@ -66,7 +66,7 @@ public class CommentControllerTest {
     void testUserCanDeleteComment(){
         User user = new User("user@example.com");
         user.setId(1L);
-        Post post = new Post("example post", user);
+        Post post = new Post("example post", user, false);
         post.setId(1L);
         Comment comment = new Comment("example comment", post, user);
         comment.setId(1L);
@@ -83,7 +83,7 @@ public class CommentControllerTest {
     void testUserCanEditComment(){
         User user = new User("user@example.com");
         user.setId(1L);
-        Post post = new Post("example post", user);
+        Post post = new Post("example post", user, false);
         post.setId(1L);
         Comment comment = new Comment("example comment", post, user);
         comment.setId(1L);

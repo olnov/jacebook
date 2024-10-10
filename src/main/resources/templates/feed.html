@@ -22,29 +22,39 @@
 <!--      <div style="text-align: center;">Posts</div>-->
 <!--</h1>-->
 
-<form action="#" th:action="@{/posts}" th:object="${post}" method="post">
-    <div class="card mb-3" style="width: 40%; margin: auto; margin-top: 10px;">
-        <div class="card-body">
-            <div class="d-flex mb-3">
-                <img th:src="${currentUser.user_photo != null ? currentUser.user_photo : '/images/user.png'}"
-                     class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 35px;">
-                <div class="w-100">
-                    <div sec:authorize="isAuthenticated()" id="greeting">
-                        <span sec:authentication="principal.attributes['email']" class="fw-bold">
-                        </span>
-                    </div>
-                    <textarea class="form-control" rows="3" placeholder="Share your thoughts..."
-                              th:field="*{content}"></textarea>
-                </div>
-            </div>
 
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">Post</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
+<div class="card mb-3" style="width: 40%; margin: auto; margin-top: 10px;">
+    <div class="card-body">
+        <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
+        <div class="d-flex mb-3">
+            <img th:src="${currentUser.user_photo != null ? currentUser.user_photo : '/images/user.png'}"
+                 class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 35px;">
+            <div class="w-100">
+                <div sec:authorize="isAuthenticated()" id="greeting">
+                    <span sec:authentication="principal.attributes['email']" class="fw-bold">
+                    </span>
+                </div>
+                <textarea class="form-control" rows="3" placeholder="Share your thoughts..."
+                          th:field="*{content}"></textarea>
             </div>
         </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" style="margin-right: 5px">Post</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+
+        </div>
+        </form>
+
+        <form id="image-form" th:action="@{/api/images/upload/post}" method="post" style="float: right; margin-top: 5px"
+              enctype="multipart/form-data">
+            <label for="formFile" class="form-label btn btn-primary">Upload Image</label>
+            <input class="form-control" type="file" name="file" id="formFile" accept=".jpg,.jpeg,.png"
+                   onchange="autoSubmitImage()" hidden/>
+        </form>
     </div>
-</form>
+</div>
+
 
 
 <div th:insert="fragments/postcards :: postcards"></div>
@@ -198,6 +208,11 @@
             }catch(error){
                 console.log("Error: ",error);
             }
+        }
+
+        const autoSubmitImage = ()=> {
+          console.log("hello");
+          document.getElementById("image-form").submit();
         }
     /*]]>*/
 </script>
