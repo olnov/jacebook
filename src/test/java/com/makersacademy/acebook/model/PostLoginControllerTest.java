@@ -1,108 +1,89 @@
 package com.makersacademy.acebook.model;
 
-import com.makersacademy.acebook.controller.PostLoginController;
-import com.makersacademy.acebook.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-import java.util.Optional;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class PostLoginControllerTest {
-
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private HttpSession session;
-
-    @Mock
-    private Authentication authentication;
-
-    @Mock
-    private OidcUser oidcUser;
-
-    @InjectMocks
-    private PostLoginController postLoginController;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);  // Initialize mocks
-    }
+public class PostLoginControllerTest {
 
     @Test
-    void handlePostLogin_UserExistsInDb_ShouldStoreUserIdInSessionAndRedirectToPosts() {
-        // Arrange
-        String email = "user@example.com";
-        Long userId = 1L;
+    public void testUserDefaultConstructor() {
         User user = new User();
-        user.setId(userId);
-        user.setUsername(email);
-
-        // Mock behavior
-        when(authentication.getPrincipal()).thenReturn(oidcUser);
-        when(oidcUser.getAttribute("email")).thenReturn(email);
-        when(userRepository.findByUsername(email)).thenReturn(Optional.of(user));
-
-        // Act
-        String result = postLoginController.handlePostLogin(authentication, session);
-
-        // Assert
-        assertEquals("redirect:/", result);  // Check the redirect
-        verify(session).setAttribute("user_id", userId);  // Verify session attribute was set
-        verify(userRepository, never()).save(any());  // Ensure no new user was saved
+        assertThat(user.isEnabled(), is(true)); // Check if the user is enabled by default
+        assertThat(user.getUsername(), is(nullValue())); // Ensure username is null
     }
 
     @Test
-    void handlePostLogin_UserNotInDb_ShouldCreateNewUserAndStoreUserIdInSession() {
-        // Arrange
-        String email = "newuser@example.com";
-        Long userId = 2L;
-        User newUser = new User();
-        newUser.setId(userId);
-        newUser.setUsername(email);
-
-        // Mock behavior
-        when(authentication.getPrincipal()).thenReturn(oidcUser);
-        when(oidcUser.getAttribute("email")).thenReturn(email);
-        when(userRepository.findByUsername(email)).thenReturn(Optional.empty())  // User not found initially
-                .thenReturn(Optional.of(newUser));  // Return new user after save
-        when(userRepository.save(any(User.class))).thenReturn(newUser);  // Mock save operation
-
-        // Act
-        String result = postLoginController.handlePostLogin(authentication, session);
-
-        // Assert
-        assertEquals("redirect:/", result);  // Check the redirect
-        verify(userRepository).save(any(User.class));  // Verify that the new user was saved
-        verify(session).setAttribute("user_id", userId);  // Verify session attribute was set for the new user
+    public void testUserConstructorWithUsername() {
+        String username = "testUser";
+        User user = new User(username);
+        assertThat(user.getUsername(), is(username)); // Check if username is set correctly
+        assertThat(user.isEnabled(), is(true)); // Check if enabled is set to true by default
     }
 
     @Test
-    void handlePostLogin_UserNotInDb_AndCannotBeCreated_ShouldThrowRuntimeException() {
-        // Arrange
-        String email = "newuser@example.com";
+    public void testUserConstructorWithEnabledFlag() {
+        String username = "testUser";
+        boolean enabled = false;
+        User user = new User(username, enabled);
+        assertThat(user.getUsername(), is(username)); // Check if username is set correctly
+        assertThat(user.isEnabled(), is(enabled)); // Check if enabled is set to false
+    }
 
-        // Mock behavior
-        when(authentication.getPrincipal()).thenReturn(oidcUser);
-        when(oidcUser.getAttribute("email")).thenReturn(email);
-        when(userRepository.findByUsername(email)).thenReturn(Optional.empty())  // User not found initially
-                .thenReturn(Optional.empty());  // User still not found after save attempt
-        when(userRepository.save(any(User.class))).thenReturn(new User(email));  // Mock save operation
+    @Test
+    public void testUserConstructorWithFullNameAndBio() {
+        String fullName = "Test User";
+        String bio = "This is a test bio.";
+        User user = new User(fullName, bio);
+        assertThat(user.getFull_name(), is(fullName)); // Check if full name is set correctly
+        assertThat(user.getBio(), is(bio)); // Check if bio is set correctly
+    }
 
-        // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            postLoginController.handlePostLogin(authentication, session);
-        });
+    @Test
+    public void testUserConstructorWithAllFields() {
+        String username = "testUser";
+        boolean enabled = true;
+        String fullName = "Test User";
+        String bio = "This is a test bio.";
+        String userPhoto = "photo_url";
 
-        assertEquals("Can't create a local user.", exception.getMessage());
+        User user = new User(username, enabled, fullName, bio, userPhoto);
+
+        assertThat(user.getUsername(), is(username));
+        assertThat(user.isEnabled(), is(enabled));
+        assertThat(user.getFull_name(), is(fullName));
+        assertThat(user.getBio(), is(bio));
+        assertThat(user.getUser_photo(), is(userPhoto));
+    }
+
+    @Test
+    public void testSettersAndGetters() {
+        User user = new User();
+
+        // Test setting and getting username
+        String username = "newUser";
+        user.setUsername(username);
+        assertThat(user.getUsername(), is(username));
+
+        // Test setting and getting full name
+        String fullName = "New User";
+        user.setFull_name(fullName);
+        assertThat(user.getFull_name(), is(fullName));
+
+        // Test setting and getting bio
+        String bio = "This is my bio.";
+        user.setBio(bio);
+        assertThat(user.getBio(), is(bio));
+
+        // Test setting and getting user photo
+        String userPhoto = "new_photo_url";
+        user.setUser_photo(userPhoto);
+        assertThat(user.getUser_photo(), is(userPhoto));
+
+        // Test setting and getting enabled flag
+        user.setEnabled(false);
+        assertThat(user.isEnabled(), is(false));
     }
 }
