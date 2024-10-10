@@ -17,9 +17,9 @@ public class PostTest {
 	// Initialising post objects with different content
 
 	private User testUser = new User("test@gmail.com");
-	private Post post1 = new Post("First post", testUser);
-	private Post post2 = new Post("Second post", testUser);
-	private Post post = new Post("hello", testUser);
+	private Post post1 = new Post("First post", testUser, false);
+	private Post post2 = new Post("Second post", testUser, false);
+	private Post post = new Post("hello", testUser, false);
 
 
 	// Test to check if the content of the post contains the word "hello"

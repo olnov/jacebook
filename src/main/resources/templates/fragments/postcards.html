@@ -18,7 +18,8 @@
                              class="me-4" style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px;">
                         <h6 class="card-title" th:text="${post.user.username}"></h6>
                     </div>
-                    <p class="card-text" th:text="${post.content}"></p>
+                    <p th:if="${!post.is_image}" class="card-text" th:text="${post.content}"></p>
+                    <img th:if="${post.is_image}" th:src="${post.content}">
                     <p class="card-text text-muted text-end"
                        th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm:ss')}">01.10.2024</p>
                     <p>
@@ -29,7 +30,7 @@
                         <span th:text="${post.getLikeCount()}"></span> Likes
                         <img src="images/comment.svg" data-bs-toggle="modal" data-bs-target="#newCommentModal"
                              th:onclick="setNewComment([[${post.id}]])">&nbsp;
-                        <img th:if="${userId == post.user.id}" src="/images/pencil.svg" data-bs-toggle="modal"
+                        <img th:if="${userId == post.user.id && !post.is_image}" src="/images/pencil.svg" data-bs-toggle="modal"
                              data-bs-target="#editModal" th:onclick="setPostEdit([[${post.id}]],[[${post.content}]])">&nbsp;
                         <img th:if="${userId == post.user.id }" src="/images/trash.svg" data-bs-toggle="modal"
                              data-bs-target="#confirmationModal" th:onclick="setPostId([[${post.id}]])">

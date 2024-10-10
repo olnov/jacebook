@@ -43,13 +43,16 @@ public class Post {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    private Boolean is_image;
+
     public Post() {}
 
 
-    public Post(String content, User user) {
+    public Post(String content, User user, Boolean is_image) {
         this.content = content;
         this.createdAt = LocalDateTime.now();
         this.user = user;
+        this.is_image = is_image;
     }
 
 // Content Getter and Setters

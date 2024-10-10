@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test; // Importing the JUnit 5 Test annotation
 public class CommentTest {
 
     private User testUser = new User("test@gmail.com");
-    private Post post1 = new Post("post 1", testUser);
+    private Post post1 = new Post("post 1", testUser, false);
     private Comment comment1 = new Comment("comment 1", post1, testUser);
 
     @Test
