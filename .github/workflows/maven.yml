@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "demo" ]
+    branches: [ "final_demo" ]
   # pull_request:
   #   branches: [ "main" ]
   workflow_dispatch:
@@ -18,6 +18,11 @@ env:
   OKTA_ISSUER_URL: ${{ vars.OKTA_ISSUER_URL }}
   OKTA_CLIENT_ID: ${{ vars.OKTA_CLIENT_ID }}
   OKTA_CLIENT_SECRET: ${{ vars.OKTA_CLIENT_SECRET }}
+  E2_PUBLIC_ENDPOINT: ${{ vars.E2_PUBLIC_ENDPOINT }}
+  E2_ENDPOINT: ${{ vars.E2_ENDPOINT }}
+  E2_BUCKET_NAME: ${{ vars.E2_BUCKET_NAME }}
+  E2_ACCESS_KEY: ${{ vars.E2_ACCESS_KEY }}
+  E2_SECRET_KEY: ${{ vars.E2_SECRET_KEY }}
 
 jobs:
   build:
@@ -50,7 +55,7 @@ jobs:
       run: docker push ${{ secrets.DOCKER_USERNAME }}/jacebook-app:latest
     - name: Deploy
       # Only run this step if the branch is main
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/final_demo'
       env:
         deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
       run: |
